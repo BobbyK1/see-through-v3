@@ -1,0 +1,124 @@
+'use client'
+
+import { Box, Button, Center, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Spinner, Stack, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+
+export default function TransactionDrawer({ isOpen, onClose }) {
+    const [loading, setLoading] = useState(false);
+
+    const router = useRouter();
+
+    const submitTransaction = () => {
+        setLoading(true);
+    }
+
+    return (
+        <Drawer size="lg" isOpen={isOpen} onClose={onClose} onOverlayClick={() => router.replace('/dashboard/transactions')}>
+            <DrawerOverlay />
+            <DrawerContent bgColor="#1c1c1c" color="whitesmoke">
+                <DrawerCloseButton />
+                <DrawerHeader>
+                    <Box display="flex" flexDir="row" alignItems="center">
+                        <Text mr="2">Create Transaction</Text>
+                        <Text as="code" bgColor="#2e2e2e" fontSize="md" h="fit-content" px="4" borderRadius="5">Draft</Text>
+                    </Box>
+                </DrawerHeader>
+                <Divider borderColor="#2e2e2e" h="0.5" />
+                <DrawerBody p="0">
+                    {loading ? 
+                        <Box w="full" mt="20">
+                            <Center flexDir="column">
+                                <Text fontSize="xl" mb="10" fontWeight="bold">Creating Your Transaction</Text>
+                                <Spinner size="xl" color="green.500" />
+                            </Center>
+                        </Box> 
+                        :  
+                        <Box>
+                            <Box mt="5" px="5">                    
+                                <ListingMainInfo />
+                            </Box>
+
+                            <Divider borderColor="#2e2e2e" h="0.5" mt="5" />
+
+                            <Box mt="5" px="5">
+                                <PricingInfo />
+                            </Box>
+
+                            <Divider borderColor="#2e2e2e" h="0.5" mt="5" />
+
+                            <Box mt="5" px="5">
+                                <ListingAgentInfo />
+                            </Box>
+
+                            <Divider borderColor="#2e2e2e" h="0.5" mt="5" />
+
+                            <Box w="fit-content" ml="auto" mt="5" px="5">
+                                <Consent />
+                            </Box>
+                        </Box>
+                    }
+                </DrawerBody>
+                <DrawerFooter>
+                    <Button mr="2" variant="solid" size="sm" bgColor="#2e2e2e" borderColor="#3e3e3e" borderWidth="thin" colorScheme="whiteAlpha" p="3" onClick={() => router.replace('/transactions/view')}>Close</Button>
+                    <Button variant="solid" size="sm" bgColor="green.500" borderColor="green.800" borderWidth="thin" colorScheme="green" p="3" onClick={submitTransaction}>Submit</Button>
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer>
+    )
+}
+
+function ListingMainInfo() {
+    return (
+        <>
+            <Stack direction="row" justify="space-between" alignItems="center">
+                <Text color="whiteAlpha.700">MLS ID</Text>
+                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+            </Stack>
+
+            <Stack direction="row" justify="space-between" alignItems="center" mt="10">
+                <Text color="whiteAlpha.700">Address</Text>
+                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+            </Stack>
+        </>
+    )
+}
+
+const ListingAgentInfo = () => {
+
+    return (
+        <>
+            <Stack direction="row" justify="space-between" alignItems="center">
+                <Text color="whiteAlpha.700">Listing Agent</Text>
+                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" defaultValue="Bobby Karamacoski" />
+            </Stack>
+
+            <Stack direction="row" justify="space-between" alignItems="center" mt="10">
+                <Text color="whiteAlpha.700">Co. Listing Agent</Text>
+                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+            </Stack>
+        </>
+    )
+}
+
+const PricingInfo = () => {
+
+    return (
+        <>
+            <Stack direction="row" justify="space-between" alignItems="center">
+                <Text color="whiteAlpha.700">Price</Text>
+                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+            </Stack>
+        </>
+    )
+}
+
+function Consent() {
+    return (
+        <>
+            <Checkbox colorScheme="green" color="whiteAlpha.700" borderColor="#3e3e3e">I certify that this listing is approved by my local Realtor Association.</Checkbox>
+            <Checkbox colorScheme="green" color="whiteAlpha.700" borderColor="#3e3e3e">I have permission to disclose the amount of offers on this transaction.</Checkbox>
+        </>
+    )
+}
