@@ -13,10 +13,16 @@
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@prisma/client": "^5.3.1",
+    "@supabase/auth-helpers-nextjs": "^0.8.1",
+    "@supabase/supabase-js": "^2.33.2",
     "framer-motion": "^10.16.4",
-    "next": "13.4.19",
+    "next": "^13.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.11.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.3.1"
   }
 }

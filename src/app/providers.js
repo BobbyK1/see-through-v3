@@ -3,6 +3,7 @@
 import { CacheProvider } from '@chakra-ui/next-js'
 import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react'
 import { SideContentProvider } from './context/useSideContent'
+import { SupabaseProvider } from './context/SupabaseProvider'
 
 export function Providers({ children }) {
 
@@ -16,10 +17,12 @@ export function Providers({ children }) {
     return (
         <CacheProvider>
             <ChakraProvider>
-                <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-                <SideContentProvider>
-                    {children}
-                </SideContentProvider>
+                <ColorModeScript initialColorMode={"dark"} />
+                    <SupabaseProvider>
+                        <SideContentProvider>
+                            {children}
+                        </SideContentProvider>
+                    </SupabaseProvider>
             </ChakraProvider>
         </CacheProvider>
     )

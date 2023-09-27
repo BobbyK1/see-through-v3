@@ -1,13 +1,12 @@
 'use client'
 
-import { Box, Button, Container, Divider, Grid, GridItem, SimpleGrid, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Container, Divider, Grid, GridItem, SimpleGrid, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import Card from "../../UI/Card";
 import { Link } from "@chakra-ui/next-js";
 import { useEffect } from "react";
 import { useSideContent } from "@/app/context/useSideContent";
 
-
-export default function DashboardContent() {
+export default function DashboardContent({ data }) {
 	const { clearSideContent } = useSideContent();
 
 	useEffect(() => {
@@ -19,7 +18,7 @@ export default function DashboardContent() {
         <Container maxW="full" px="40">
             <Grid templateColumns="repeat(12, 1fr)" gap="5">
                 <GridItem colSpan="8">
-                    <Stats />
+                    <Stats id={data.id} />
                 </GridItem>
 
                 <GridItem colSpan="4">
@@ -65,11 +64,15 @@ const Tasks = () => {
 	)
 }
 
-const Stats = () => {
+const Stats = ({ id }) => {
 	return (
 		<Card p="10" h="400">
-			<Text fontSize="lg" fontWeight="bold" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")}>Welcome back, Bobby.</Text>
-			<Text fontSize="sm" color={useColorModeValue("blackAlpha.600", "whiteAlpha.600")}>See what's going on today.</Text>
+			<Stack direction="row" justify="space-between">
+				<Box>
+					<Text fontSize="lg" fontWeight="bold" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")}>Welcome back, {id}.</Text>
+					<Text fontSize="sm" color={useColorModeValue("blackAlpha.600", "whiteAlpha.600")}>See what's going on today.</Text>
+				</Box>
+			</Stack>
 
 			<SimpleGrid columns="4" mt="20" spacing="3">
 				<Box p="5" borderColor={useColorModeValue("none", "#2e2e2e")} borderWidth="thin" borderRadius="5">

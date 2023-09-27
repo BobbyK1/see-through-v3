@@ -1,17 +1,60 @@
 'use client'
 
+import { useSupabase } from "@/app/context/SupabaseProvider";
 import { Box, Button, Center, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Spinner, Stack, Text } from "@chakra-ui/react";
+import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
 export default function TransactionDrawer({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
+    const { user } = useSupabase();
+
+    const [formData, setFormData] = useState({
+        mlsId: '',
+        address: '',
+        price: '',
+        listingAgent: '',
+        coListingAgent: '',
+        userId: user?.id
+    })
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    }
 
     const router = useRouter();
 
-    const submitTransaction = () => {
+    const submitTransaction = async () => {
+        // const prisma = new PrismaClient();
+
+        // prisma.transactions.create({
+        //     data: {
+        //         address: formData.address,
+        //         mls_id: formData.mlsId,
+        //         price: formData.price,
+        //         listing_agent: formData.listingAgent,
+        //         co_listing_agent: formData.coListingAgent,
+        //         user_id: user.id
+        //     }
+        // })
+
         setLoading(true);
+
+        await fetch('/database/createTransaction', {
+            method: "post",
+            body: JSON.stringify(formData)
+        })
+        .then(data => data.json())
+        .then(data => console.log(data));
+
+        setLoading(false);
     }
 
     return (
@@ -37,19 +80,38 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                         :  
                         <Box>
                             <Box mt="5" px="5">                    
-                                <ListingMainInfo />
+                                <Stack direction="row" justify="space-between" alignItems="center">
+                                    <Text color="whiteAlpha.700">MLS ID</Text>
+                                    <Input name="mlsId" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+                                </Stack>
+
+                                <Stack direction="row" justify="space-between" alignItems="center" mt="10">
+                                    <Text color="whiteAlpha.700">Address</Text>
+                                    <Input name="address" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+                                </Stack>
                             </Box>
 
                             <Divider borderColor="#2e2e2e" h="0.5" mt="5" />
 
                             <Box mt="5" px="5">
-                                <PricingInfo />
+                                <Stack direction="row" justify="space-between" alignItems="center">
+                                    <Text color="whiteAlpha.700">Price</Text>
+                                    <Input name="price" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+                                </Stack>
                             </Box>
 
                             <Divider borderColor="#2e2e2e" h="0.5" mt="5" />
 
                             <Box mt="5" px="5">
-                                <ListingAgentInfo />
+                                <Stack direction="row" justify="space-between" alignItems="center">
+                                    <Text color="whiteAlpha.700">Listing Agent</Text>
+                                    <Input name="listingAgent" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" defaultValue="Bobby Karamacoski" />
+                                </Stack>
+
+                                <Stack direction="row" justify="space-between" alignItems="center" mt="10">
+                                    <Text color="whiteAlpha.700">Co. Listing Agent</Text>
+                                    <Input name="coListingAgent" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+                                </Stack>
                             </Box>
 
                             <Divider borderColor="#2e2e2e" h="0.5" mt="5" />
@@ -69,35 +131,11 @@ export default function TransactionDrawer({ isOpen, onClose }) {
     )
 }
 
-function ListingMainInfo() {
-    return (
-        <>
-            <Stack direction="row" justify="space-between" alignItems="center">
-                <Text color="whiteAlpha.700">MLS ID</Text>
-                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
-            </Stack>
-
-            <Stack direction="row" justify="space-between" alignItems="center" mt="10">
-                <Text color="whiteAlpha.700">Address</Text>
-                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
-            </Stack>
-        </>
-    )
-}
-
 const ListingAgentInfo = () => {
 
     return (
         <>
-            <Stack direction="row" justify="space-between" alignItems="center">
-                <Text color="whiteAlpha.700">Listing Agent</Text>
-                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" defaultValue="Bobby Karamacoski" />
-            </Stack>
-
-            <Stack direction="row" justify="space-between" alignItems="center" mt="10">
-                <Text color="whiteAlpha.700">Co. Listing Agent</Text>
-                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
-            </Stack>
+            
         </>
     )
 }

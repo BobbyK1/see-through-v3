@@ -1,5 +1,3 @@
-'use client'
-
 import { Avatar, Box, Button, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Icon, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";

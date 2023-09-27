@@ -7,6 +7,8 @@ import Header from "../components/Nav/Header";
 import MainWrapper from "../components/Layout/MainWrapper";
 import ColumnWrapper from "../components/Layout/ColumnWrapper";
 import { useSideContent } from "../context/useSideContent";
+import Loading from "./loading";
+import { Suspense } from "react";
 
 const metadata = {
     title: "Dashboard - See Through"
@@ -25,7 +27,9 @@ export default function DashboardLayout({ children }) {
                     <ViewWrapper>
                         <Header />
                         <MainWrapper>
-                            {children}
+                            <Suspense fallback={<Loading />}>
+                                {children}
+                            </Suspense>
                         </MainWrapper>
                     </ViewWrapper>
                 </Box>

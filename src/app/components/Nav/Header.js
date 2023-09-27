@@ -1,4 +1,7 @@
+import { useSupabase } from "@/app/context/SupabaseProvider";
+import { Link } from "@chakra-ui/next-js";
 import { Box, Button, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Stack, Text, Tooltip, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 // import Search from "../ui/Search";
 import { AiOutlineBell, AiOutlineUser } from "react-icons/ai";
 
@@ -14,9 +17,11 @@ export default function Header({ children, title, rightButtons, ...props }) {
             <Stack direction="row" spacing="2">
                 {/* <Button onClick={toggleColorMode}>Toggle</Button> */}
 
-                <Tooltip placement="bottom" label="Notifications">
-                    <IconButton color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} my="1" fontSize="xl" variant="ghost" icon={<AiOutlineBell />} />
-                </Tooltip>
+                <Link href="/dashboard/notifications">
+                    <Tooltip placement="bottom" label="Notifications">
+                        <IconButton color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} my="1" fontSize="xl" variant="ghost" icon={<AiOutlineBell />} />
+                    </Tooltip>
+                </Link>
                 
                 <ProfileMenu />
             </Stack>
@@ -26,6 +31,7 @@ export default function Header({ children, title, rightButtons, ...props }) {
 
 const ProfileMenu = () => {
     const { colorMode, setColorMode } = useColorMode();
+    const { signOut } = useSupabase();
 
     return (
         <Menu>
@@ -45,7 +51,7 @@ const ProfileMenu = () => {
 
                 <MenuDivider />
 
-                <MenuItem _hover={{ bg: useColorModeValue("blackAlpha.100", "#3e3e3e") }} bg={useColorModeValue("white", "#2e2e2e")}>Log Out</MenuItem>
+                <MenuItem as="button" onClick={signOut} _hover={{ bg: useColorModeValue("blackAlpha.100", "#3e3e3e") }} bg={useColorModeValue("white", "#2e2e2e")}>Log Out</MenuItem>
             </MenuList>
         </Menu>
     )
