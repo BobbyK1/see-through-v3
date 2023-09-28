@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
-export default function TransactionsPage() {
+export default function TransactionsPage({ transactions }) {
     const {isOpen, onOpen, onClose } = useDisclosure();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -25,7 +25,7 @@ export default function TransactionsPage() {
     return (
         <>
             <SimpleGrid spacing="3" w="full" columns={[1, 1, 1, 1, 2, 3, 4]}>
-                <CurrentStatusCards router={router} currentTab={currentTab} />                        
+                <CurrentStatusCards transactions={transactions} router={router} currentTab={currentTab} />                        
             </SimpleGrid>
 
             <TransactionDrawer isOpen={searchParams.get('createTransaction') === "true" || isOpen} onClose={onClose} />
@@ -60,35 +60,39 @@ const SidebarContent = ({ currentTab, setCurrentTab, onOpen }) => {
     )
 }
 
-const CurrentStatusCards = ({ router, currentTab }) => {
+const CurrentStatusCards = ({ router, currentTab, transactions }) => {
 
     return (
-        <>
-            <Card maxW="550" p="0">
-                <Box p="3">
-                    <Text fontSize="sm" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>16328 <Tag ml="3" size="sm" variant="outline" colorScheme="green" textTransform="capitalize">{currentTab}</Tag></Text>
-                </Box>
-                <Divider borderColor={useColorModeValue("blackAlpha.400", "#3e3e3e")} />
+        <> 
+        {transactions.map(transaction => {
+            return (
+                <Card maxW="550" p="0">
+                    <Box p="3">
+                        <Text fontSize="sm" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>{transaction.mls_id} <Tag ml="3" size="sm" variant="outline" colorScheme="green" textTransform="capitalize">{currentTab}</Tag></Text>
+                    </Box>
+                    <Divider borderColor={useColorModeValue("blackAlpha.400", "#3e3e3e")} />
 
-                <Box p="3" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>
-                    <Stack justify="space-between" direction="row" alignItems="center">
-                        <Box>
-                            <Text fontSize="md">11866 Mount St.</Text>
-                            <Text fontSize="md">Crown Point, IN 46307</Text>
-                        </Box>
-                        <Box>
-                            <Text>Offers</Text>
-                            <Text textAlign="right">0</Text>
-                        </Box>
-                    </Stack>
-                </Box>
+                    <Box p="3" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>
+                        <Stack justify="space-between" direction="row" alignItems="center">
+                            <Box>
+                                <Text fontSize="sm" color={useColorModeValue("blackAlpha.500", "whiteAlpha.500")}>${transaction.price}</Text>
+                                <Text fontSize="md">{transaction.address}</Text>
+                            </Box>
+                            <Box>
+                                <Text>Offers</Text>
+                                <Text textAlign="right">0</Text>
+                            </Box>
+                        </Stack>
+                    </Box>
 
-                <Divider borderColor={useColorModeValue("blackAlpha.400", "#3e3e3e")} />
+                    <Divider borderColor={useColorModeValue("blackAlpha.400", "#3e3e3e")} />
 
-                <Box onClick={() => router.replace('/dashboard/transactions/86c6d42c-67cd-494d-ac5a-e898adffe13d')} transition="0.2s ease" _hover={{ bgColor: useColorModeValue("blackAlpha.100", "#3f3e3e"), cursor: "pointer" }} p="2" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")} textAlign="center">
-                    View
-                </Box>
-            </Card>
+                    <Box onClick={() => router.push(`/dashboard/transactions/${transaction.id}`)} transition="0.2s ease" _hover={{ bgColor: useColorModeValue("blackAlpha.100", "#3f3e3e"), cursor: "pointer" }} p="2" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")} textAlign="center">
+                        View
+                    </Box>
+                </Card>
+            )
+        })}
 
         </>
     )

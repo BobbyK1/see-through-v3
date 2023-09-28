@@ -3,19 +3,11 @@
 import { Box, Button, ButtonGroup, Container, Divider, Grid, GridItem, SimpleGrid, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import Card from "../../UI/Card";
 import { Link } from "@chakra-ui/next-js";
-import { useEffect } from "react";
-import { useSideContent } from "@/app/context/useSideContent";
 
 export default function DashboardContent({ data }) {
-	const { clearSideContent } = useSideContent();
-
-	useEffect(() => {
-        clearSideContent();
-    }, [])
-
 
     return (
-        <Container maxW="full" px="40">
+        <Box maxW="full" px="10">
             <Grid templateColumns="repeat(12, 1fr)" gap="5">
                 <GridItem colSpan="8">
                     <Stats id={data.id} />
@@ -45,7 +37,7 @@ export default function DashboardContent({ data }) {
                     </Card>
                 </GridItem>
             </Grid>
-        </Container>
+        </Box>
     )
 }
 
@@ -79,7 +71,7 @@ const Stats = ({ id }) => {
 					<Text fontSize="md" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} textAlign="center">Active Transactions</Text>
 					<Text fontSize="2xl" my="3" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")} textAlign="center">0</Text>
 					<Box mx="auto" w="fit-content">
-						<Link href="/transactions/view">
+						<Link href="/dashboard/transactions">
 							<Button size="xs" variant="ghost" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}>View All</Button>
 						</Link>
 					</Box>

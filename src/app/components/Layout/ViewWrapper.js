@@ -1,5 +1,3 @@
-'use client'
-
 import { Box } from "@chakra-ui/react";
 
 // Wraps everything to the right of the side navbar for layout

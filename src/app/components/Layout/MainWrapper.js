@@ -1,5 +1,3 @@
-'use client'
-
 import { Box } from "@chakra-ui/react";
 
 // Wraps main content for layout

@@ -1,5 +1,3 @@
-'use client'
-
 import { Box, Center, Spinner, Text, useColorModeValue } from "@chakra-ui/react"
 
 

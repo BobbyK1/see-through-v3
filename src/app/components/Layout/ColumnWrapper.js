@@ -1,5 +1,3 @@
-'use client'
-
 import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 
 // Wraps sub navbar for layout

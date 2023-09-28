@@ -1,7 +1,7 @@
 'use client'
 
 import { useSupabase } from "@/app/context/SupabaseProvider";
-import { Box, Button, Center, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
 import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import { useState } from "react";
 export default function TransactionDrawer({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
     const { user } = useSupabase();
+    const toast = useToast();
 
     const [formData, setFormData] = useState({
         mlsId: '',
@@ -32,19 +33,6 @@ export default function TransactionDrawer({ isOpen, onClose }) {
     const router = useRouter();
 
     const submitTransaction = async () => {
-        // const prisma = new PrismaClient();
-
-        // prisma.transactions.create({
-        //     data: {
-        //         address: formData.address,
-        //         mls_id: formData.mlsId,
-        //         price: formData.price,
-        //         listing_agent: formData.listingAgent,
-        //         co_listing_agent: formData.coListingAgent,
-        //         user_id: user.id
-        //     }
-        // })
-
         setLoading(true);
 
         await fetch('/database/createTransaction', {
@@ -52,7 +40,17 @@ export default function TransactionDrawer({ isOpen, onClose }) {
             body: JSON.stringify(formData)
         })
         .then(data => data.json())
-        .then(data => console.log(data));
+        .then(data => {
+            toast({
+                title: "Transaction successfully created!",
+                status: "success",
+                duration: 5000
+            })
+            router.push(`/dashboard/transactions/${data.id}`)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 
         setLoading(false);
     }

@@ -1,13 +1,13 @@
 'use client'
 
 import { useSideContent } from "@/app/context/useSideContent";
-import { Button, Center, Input, Stack, Tag, Text, useColorModeValue } from "@chakra-ui/react";
+import { Button, Tag, Text, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Card from "../../UI/Card";
 
 
-export default function ViewTransaction() {
+export default function ViewTransaction({ data }) {
     const router = useRouter();
     const [currentTab, setCurrentTab] = useState('listingInfo');
     const { updateTitle, updateContent } = useSideContent();
@@ -18,7 +18,7 @@ export default function ViewTransaction() {
     }, [currentTab])
 
     const content = {
-        "listingInfo": <ListingInfo />,
+        "listingInfo": <ListingInfo address={data.address} />,
         "offers": <Offers />,
         "assignedClients": "assignedClients",
         "settings": "settings",
@@ -32,11 +32,11 @@ export default function ViewTransaction() {
     )
 }
 
-const ListingInfo = () => {
+const ListingInfo = ({ address }) => {
 
     return (
         <>
-            <Text fontSize="lg" fontWeight="bold" mt="5" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}>11866 Mount St, Crown Point, IN 46307</Text>
+            <Text fontSize="lg" fontWeight="bold" mt="5" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}>{address}</Text>
 
             <Card mt="7" px="10" py="7">
                 
