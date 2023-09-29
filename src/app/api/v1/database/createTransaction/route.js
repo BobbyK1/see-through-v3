@@ -1,11 +1,10 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/app/Prisma';
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request) {
     const body = await request.json();
-    const prisma = new PrismaClient();
 
     try {
         const createdTransaction = await prisma.transactions.create({
@@ -15,7 +14,8 @@ export async function POST(request) {
                 price: body.price,
                 listing_agent: body.listingAgent,
                 co_listing_agent: body.coListingAgent,
-                user_id: body.userId
+                user_id: body.userId,
+                status: "active"
             }
         })
 
@@ -25,7 +25,5 @@ export async function POST(request) {
         const errorResponse = { error: errorMessage };
 
         return NextResponse.json(errorResponse, { status: 500 });
-    } finally {
-        await prisma.$disconnect();
     }
 }

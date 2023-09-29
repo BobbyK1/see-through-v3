@@ -3,7 +3,8 @@
 import { useSideContent } from "@/app/context/useSideContent";
 import { Box, IconButton, Tooltip, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
-import { AiOutlineFileAdd, AiOutlineFolderOpen, AiOutlineHome, AiOutlineQuestionCircle, AiOutlineSearch, AiOutlineSend, AiOutlineSetting, AiOutlineUser, AiOutlineUserAdd, AiOutlineUsergroupAdd } from 'react-icons/ai';
+import { useRouter } from "next/router";
+import { AiOutlineFolderOpen, AiOutlineHome, AiOutlineQuestionCircle, AiOutlineSearch, AiOutlineSend, AiOutlineSetting } from 'react-icons/ai';
 
 export default function Sidebar() {
     const { clearSideContent } = useSideContent();
@@ -57,7 +58,7 @@ export default function Sidebar() {
                                 <>
                                     <Tooltip key={link.link} placement="right-end" label={link.title}>
                                         <Link href={link.link}>
-                                            <IconButton onClick={clearSideContent} my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
+                                            <IconButton onClick={window.location.pathname === link.link ? null : clearSideContent} my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
                                         </Link>
                                     </Tooltip>
                                 </>

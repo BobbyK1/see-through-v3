@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
+  previewFeatures = ["multiSchema", "views"]
 }
 
 datasource db {
@@ -276,14 +276,20 @@ model users {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model profiles {
-  id           String         @id @db.Uuid
-  updated_at   DateTime?      @db.Timestamptz(6)
-  username     String?        @unique
-  full_name    String?
-  avatar_url   String?
-  website      String?
-  users        users          @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  transactions transactions[]
+  id                        String         @id @db.Uuid
+  updated_at                DateTime?      @db.Timestamptz(6)
+  username                  String?        @unique
+  full_name                 String?
+  avatar_url                String?
+  website                   String?
+  first_name                String?
+  last_name                 String?
+  phone_number              String?
+  email                     String?
+  mls_user_id               String?
+  active_transactions_count Int?
+  users                     users          @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  transactions              transactions[]
 
   @@schema("public")
 }
@@ -293,13 +299,24 @@ model transactions {
   id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at       DateTime  @default(now()) @db.Timestamptz(6)
   user_id          String?   @db.Uuid
-  price            String?   @db.VarChar
-  listing_agent    String?   @db.VarChar
-  co_listing_agent String?   @db.VarChar
-  address          String?   @db.VarChar
-  mls_id           String?   @db.VarChar
+  price            String?
+  listing_agent    String?
+  co_listing_agent String?
+  address          String?
+  mls_id           String    @unique
+  num_of_offers    Int       @default(0) @db.SmallInt
+  status           String?
   profiles         profiles? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  @@schema("public")
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view profile_transaction_count {
+  user_id                   String? @db.Uuid
+  active_transactions_count BigInt?
+
+  @@ignore
   @@schema("public")
 }
 

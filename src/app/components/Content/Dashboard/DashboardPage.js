@@ -4,13 +4,13 @@ import { Box, Button, ButtonGroup, Container, Divider, Grid, GridItem, SimpleGri
 import Card from "../../UI/Card";
 import { Link } from "@chakra-ui/next-js";
 
-export default function DashboardContent({ data }) {
+export default function DashboardContent({ data, activeTransactionCount }) {
 
     return (
         <Box maxW="full" px="10">
             <Grid templateColumns="repeat(12, 1fr)" gap="5">
                 <GridItem colSpan="8">
-                    <Stats id={data.id} />
+                    <Stats firstName={data.first_name} activeTransactionCount={activeTransactionCount} />
                 </GridItem>
 
                 <GridItem colSpan="4">
@@ -56,12 +56,12 @@ const Tasks = () => {
 	)
 }
 
-const Stats = ({ id }) => {
+const Stats = ({ firstName, activeTransactionCount }) => {
 	return (
 		<Card p="10" h="400">
 			<Stack direction="row" justify="space-between">
 				<Box>
-					<Text fontSize="lg" fontWeight="bold" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")}>Welcome back, {id}.</Text>
+					<Text fontSize="lg" fontWeight="bold" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")}>Welcome back, {firstName}.</Text>
 					<Text fontSize="sm" color={useColorModeValue("blackAlpha.600", "whiteAlpha.600")}>See what's going on today.</Text>
 				</Box>
 			</Stack>
@@ -69,7 +69,7 @@ const Stats = ({ id }) => {
 			<SimpleGrid columns="4" mt="20" spacing="3">
 				<Box p="5" borderColor={useColorModeValue("none", "#2e2e2e")} borderWidth="thin" borderRadius="5">
 					<Text fontSize="md" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} textAlign="center">Active Transactions</Text>
-					<Text fontSize="2xl" my="3" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")} textAlign="center">0</Text>
+					<Text fontSize="2xl" my="3" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")} textAlign="center">{activeTransactionCount}</Text>
 					<Box mx="auto" w="fit-content">
 						<Link href="/dashboard/transactions">
 							<Button size="xs" variant="ghost" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}>View All</Button>

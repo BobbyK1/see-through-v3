@@ -1,7 +1,7 @@
 'use client'
 
 import Card from "@/app/components/UI/Card";
-import TransactionDrawer from "@/app/components/UI/TransactionsDrawer";
+import TransactionDrawer from "@/app/components/Content/Transactions/TransactionsDrawer";
 import { useSideContent } from "@/app/context/useSideContent";
 // import Search from "@/components/ui/Search";
 import { Box, Button, Divider, SimpleGrid, Stack, Tag, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
@@ -68,7 +68,7 @@ const CurrentStatusCards = ({ router, currentTab, transactions }) => {
             return (
                 <Card maxW="550" p="0">
                     <Box p="3">
-                        <Text fontSize="sm" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>{transaction.mls_id} <Tag ml="3" size="sm" variant="outline" colorScheme="green" textTransform="capitalize">{currentTab}</Tag></Text>
+                        <Text fontSize="sm" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>{transaction.mls_id} <Tag ml="3" size="sm" variant="outline" colorScheme="green" textTransform="capitalize">{transaction.status}</Tag></Text>
                     </Box>
                     <Divider borderColor={useColorModeValue("blackAlpha.400", "#3e3e3e")} />
 
@@ -76,11 +76,11 @@ const CurrentStatusCards = ({ router, currentTab, transactions }) => {
                         <Stack justify="space-between" direction="row" alignItems="center">
                             <Box>
                                 <Text fontSize="sm" color={useColorModeValue("blackAlpha.500", "whiteAlpha.500")}>${transaction.price}</Text>
-                                <Text fontSize="md">{transaction.address}</Text>
+                                <Text fontSize="lg">{transaction.address}</Text>
                             </Box>
                             <Box>
                                 <Text>Offers</Text>
-                                <Text textAlign="right">0</Text>
+                                <Text textAlign="right">{transaction.num_of_offers}</Text>
                             </Box>
                         </Stack>
                     </Box>

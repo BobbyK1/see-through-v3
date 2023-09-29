@@ -2,7 +2,6 @@
 
 import { useSupabase } from "@/app/context/SupabaseProvider";
 import { Box, Button, Center, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
-import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -35,7 +34,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
     const submitTransaction = async () => {
         setLoading(true);
 
-        await fetch('/database/createTransaction', {
+        await fetch('/api/v1/database/createTransaction', {
             method: "post",
             body: JSON.stringify(formData)
         })
@@ -44,15 +43,20 @@ export default function TransactionDrawer({ isOpen, onClose }) {
             toast({
                 title: "Transaction successfully created!",
                 status: "success",
+                variant: "subtle",
+                position: "bottom-right",
                 duration: 5000
             })
+            router.refresh();
             router.push(`/dashboard/transactions/${data.id}`)
         })
         .catch(error => {
             console.log(error)
+
+            setLoading(false);
         })
 
-        setLoading(false);
+        
     }
 
     return (
@@ -103,7 +107,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                             <Box mt="5" px="5">
                                 <Stack direction="row" justify="space-between" alignItems="center">
                                     <Text color="whiteAlpha.700">Listing Agent</Text>
-                                    <Input name="listingAgent" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" defaultValue="Bobby Karamacoski" />
+                                    <Input name="listingAgent" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" defaultValue="" />
                                 </Stack>
 
                                 <Stack direction="row" justify="space-between" alignItems="center" mt="10">

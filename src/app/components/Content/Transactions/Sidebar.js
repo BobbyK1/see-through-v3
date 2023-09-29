@@ -1,39 +1,3 @@
-'use client'
-
-import { useSideContent } from "@/app/context/useSideContent";
-import { Button, Tag, Text, useColorModeValue } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import ListingInfo from "./Tabs/LisingInfo";
-import Offers from "./Tabs/Offers";
-import Settings from "./Tabs/Settings";
-
-
-export default function ViewTransaction({ params, data }) {
-    const router = useRouter();
-    const [currentTab, setCurrentTab] = useState('listingInfo');
-    const { updateTitle, updateContent } = useSideContent();
-
-    useEffect(() => {
-        updateContent(<SidebarContent setCurrentTab={setCurrentTab} currentTab={currentTab} router={router} />)
-        updateTitle("Transaction");
-    }, [currentTab])
-
-    const content = {
-        "listingInfo": <ListingInfo address={data.address} />,
-        "offers": <Offers />,
-        "assignedClients": "assignedClients",
-        "settings": <Settings id={params.id} />,
-        "tasks": "tasks"
-    }
-
-    return (
-        <>
-            {content[currentTab]}
-        </>
-    )
-}
-
 const SidebarContent = ({ currentTab, setCurrentTab, router }) => {
 
     const SideButton = ({ children, tab, ...props }) => {
@@ -58,3 +22,5 @@ const SidebarContent = ({ currentTab, setCurrentTab, router }) => {
         </>
     )
 }
+
+export default SidebarContent;
