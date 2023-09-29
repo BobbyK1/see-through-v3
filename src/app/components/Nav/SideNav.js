@@ -58,7 +58,7 @@ export default function Sidebar() {
                                 <>
                                     <Tooltip key={link.link} placement="right-end" label={link.title}>
                                         <Link href={link.link}>
-                                            <IconButton onClick={window.location.pathname === link.link ? null : clearSideContent} my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
+                                            <IconButton onClick={clearSideContent} my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
                                         </Link>
                                     </Tooltip>
                                 </>

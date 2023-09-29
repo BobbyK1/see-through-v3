@@ -4,7 +4,7 @@ import Card from "@/app/components/UI/Card";
 import TransactionDrawer from "@/app/components/Content/Transactions/TransactionsDrawer";
 import { useSideContent } from "@/app/context/useSideContent";
 // import Search from "@/components/ui/Search";
-import { Box, Button, Divider, SimpleGrid, Stack, Tag, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Center, Divider, SimpleGrid, Stack, Tag, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -24,9 +24,15 @@ export default function TransactionsPage({ transactions }) {
 
     return (
         <>
-            <SimpleGrid spacing="3" w="full" columns={[1, 1, 1, 1, 2, 3, 4]}>
-                <CurrentStatusCards transactions={transactions} router={router} currentTab={currentTab} />                        
-            </SimpleGrid>
+            {transactions.length === 0 ? 
+                <Center h="75vh">
+                    <Text fontSize="lg" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>Nothing here yet...</Text>
+                </Center>
+            :  
+                <SimpleGrid spacing="3" w="full" columns={[1, 1, 1, 1, 2, 3, 4]}>
+                    <CurrentStatusCards transactions={transactions} router={router} currentTab={currentTab} />                        
+                </SimpleGrid>
+            }
 
             <TransactionDrawer isOpen={searchParams.get('createTransaction') === "true" || isOpen} onClose={onClose} />
         </>

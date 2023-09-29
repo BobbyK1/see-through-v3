@@ -20,7 +20,7 @@ export default async function Page() {
     const supabase = createServerComponentClient({ cookies });
     const { data } = await supabase.auth.getUser();
 
-    if (!data.user) {
+    if (!data) {
         redirect('/')
     }
 
