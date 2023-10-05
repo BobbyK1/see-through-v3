@@ -1,7 +1,7 @@
 'use client'
 
 import { useSupabase } from "@/app/context/SupabaseProvider";
-import { Box, Button, Center, Checkbox, CheckboxIcon, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, InputGroup, InputRightAddon, InputRightElement, Spinner, Stack, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { Box, Button, Center, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -51,7 +51,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                 duration: 5000
             })
             router.refresh();
-            router.push(`/dashboard/transactions/${data.id}`)
+            router.push(`/dashboard/transactions/view/${data.id}`)
         })
         .catch(error => {
             console.log(error)
@@ -83,7 +83,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
         }
         
 
-        setUniqueLoading(false);
+        return setUniqueLoading(false);
     }
 
     return (
@@ -161,27 +161,6 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
-    )
-}
-
-const ListingAgentInfo = () => {
-
-    return (
-        <>
-            
-        </>
-    )
-}
-
-const PricingInfo = () => {
-
-    return (
-        <>
-            <Stack direction="row" justify="space-between" alignItems="center">
-                <Text color="whiteAlpha.700">Price</Text>
-                <Input w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
-            </Stack>
-        </>
     )
 }
 

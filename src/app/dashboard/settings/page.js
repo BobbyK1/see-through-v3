@@ -1,7 +1,12 @@
-import SettingsContent from "@/app/components/Content/Settings/SettingsPage";
+'use client'
+
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
+
 
 export default function Page() {
-    return (
-        <SettingsContent />
-    )
+
+    useEffect(() => {
+        return redirect('/dashboard/settings/account');
+    }, [])
 }

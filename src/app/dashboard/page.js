@@ -3,33 +3,26 @@ import DashboardContent from "../components/Content/Dashboard/DashboardPage";
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation";
 import { prisma } from "../Prisma";
-const { PrismaClient } = require("@prisma/client");
 
 export const dynamic = 'force-dynamic';
 
-async function GetProfile(id) {
-    const profile = await prisma.profiles.findUnique({ 
-        where: { 
-            id: id 
-        },
-        select: {
-            id: true,
-            first_name: true,
-        }
-    })
+async function GetProfile(id, supabase) {
+    const { data: profile, error } = await supabase.from('profiles').select("first_name").eq('id', id);
 
-    return profile;
+    if (error) throw new Error(`Error Code For Support: ${error.code}`);
+
+    return profile[0];
 }
 
-async function GetActiveTransactions(id) {
-    const activeTransactionCount = await prisma.transactions.count({
-        where: {
-            user_id: id,
-            status: "active"
-        }
-    })
+async function GetActiveTransactionsCount(id, supabase) {
+    const { data, count, error } = await supabase
+        .from('transactions')
+        .select('*', { count: 'exact', head: true })
+        .filter('user_id', "eq", id)
 
-    return activeTransactionCount;
+    if (error) throw new Error(`Error Code For Support: ${error.code}`);
+
+    return count;
 }
 
 export default async function Page() {
@@ -42,8 +35,8 @@ export default async function Page() {
 
     const { data } = await supabase.auth.getUser();
 
-    const profile = await GetProfile(data.user.id);
-    const activeTransactionCount = await GetActiveTransactions(data.user.id)
+    const profile = await GetProfile(data.user.id, supabase);
+    const activeTransactionCount = await GetActiveTransactionsCount(data.user.id, supabase)
 
     return (
         <DashboardContent data={profile} activeTransactionCount={activeTransactionCount} />

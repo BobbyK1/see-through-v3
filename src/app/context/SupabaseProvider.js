@@ -39,7 +39,7 @@ export const SupabaseProvider = ({ children }) => {
     }, []);
 
     return (
-        <SupabaseContext.Provider value={{ user, signOut }}>
+        <SupabaseContext.Provider value={{ user, signOut, supabase }}>
             {children}
         </SupabaseContext.Provider>
     )

@@ -40,7 +40,9 @@ const ProfileMenu = () => {
             </Tooltip>
 
             <MenuList borderColor={useColorModeValue("blackAlpha.400", "#3e3e3e")} bg={useColorModeValue("white", "#2e2e2e")}>
-                <MenuItem _hover={{ bg: useColorModeValue("blackAlpha.100", "#3e3e3e") }} bg={useColorModeValue("white", "#2e2e2e")}>Profile</MenuItem>
+                <Link href="/dashboard/settings/profile">
+                    <MenuItem _hover={{ bg: useColorModeValue("blackAlpha.100", "#3e3e3e") }} bg={useColorModeValue("white", "#2e2e2e")}>Profile</MenuItem>
+                </Link>
 
                 <MenuDivider />
 

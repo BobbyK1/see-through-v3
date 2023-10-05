@@ -8,15 +8,15 @@ import MainWrapper from "../components/Layout/MainWrapper";
 import ColumnWrapper from "../components/Layout/ColumnWrapper";
 import { useSideContent } from "../context/useSideContent";
 import Loading from "./loading";
-import { Suspense } from "react";
-
-const metadata = {
-    title: "Dashboard - See Through"
-}
+import { Suspense, useEffect } from "react";
 
 
 export default function DashboardLayout({ children }) {
-    const { sideContent, title } = useSideContent();
+    const { sideContent, title, clearSideContent } = useSideContent();
+
+    useEffect(() => {
+        clearSideContent
+    }, [])
 
     return (
         <Box display="flex" minH="full" flexDirection="column" bgColor={useColorModeValue("#f8f9fa", "#1c1c1c")}>

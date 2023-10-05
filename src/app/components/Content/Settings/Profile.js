@@ -1,11 +1,13 @@
+'use client'
+
 import { Avatar, Box, Button, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Icon, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import Card from "../../UI/Card";
 import SmallButton from "../../UI/Button";
 
-const Profile = () => {
-    const [bioLength, setBioLength] = useState("");
+const Profile = ({ profile }) => {
+    const [bio, setBio] = useState("");
     const {onOpen, isOpen, onClose} = useDisclosure();
 
     return (
@@ -14,13 +16,12 @@ const Profile = () => {
 
             <Card mt="7" px="10" py="7">
                 <Text fontSize="md" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>Your Public Profile</Text>
-
                 <Stack direction="row" justify="space-between" mt="10" alignItems="center">
                     <Box>
                         <Stack direction="row" alignItems="center">
-                            <Avatar name="B K" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} bg={useColorModeValue("blackAlpha.200", "#1e1e1e")} size="lg" />
+                            <Avatar name={`${profile.first_name} ${profile.last_name}`} color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} bg={useColorModeValue("blackAlpha.200", "#1e1e1e")} size="lg" />
                             <Box>
-                                <Text fontSize="md" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>Bobby Karamacoski</Text>
+                                <Text fontSize="md" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>{profile.first_name} {profile.last_name}</Text>
                                 <Text fontSize="sm" color={useColorModeValue("blackAlpha.500", "whiteAlpha.500")}>Broker Agent</Text>
                                 <Text fontSize="sm" color={useColorModeValue("blackAlpha.500", "whiteAlpha.500")}>NIRA</Text>
                             </Box>
@@ -32,9 +33,9 @@ const Profile = () => {
 
                 <Box mt="10" w="full">
                     <Text fontSize="md" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>Bio</Text>
-                    <Textarea color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} maxLength={1000} resize="none" h="40" mt="4" onChange={(e) => setBioLength(e.target.value)} borderColor={useColorModeValue("blackAlpha.500", "#3e3e3e")} />
+                    <Textarea color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} maxLength={1000} resize="none" h="40" mt="4" onChange={(e) => setBio(e.target.value)} borderColor={useColorModeValue("blackAlpha.500", "#3e3e3e")} />
                     <Box w="fit-content" ml="auto">
-                        <Text as="span" fontSize="xs" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>{bioLength.length}/1000</Text>
+                        <Text as="span" fontSize="xs" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>{bio.length}/1000</Text>
                     </Box>
                 </Box>
 

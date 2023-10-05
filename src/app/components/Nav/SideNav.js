@@ -3,7 +3,6 @@
 import { useSideContent } from "@/app/context/useSideContent";
 import { Box, IconButton, Tooltip, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { AiOutlineFolderOpen, AiOutlineHome, AiOutlineQuestionCircle, AiOutlineSearch, AiOutlineSend, AiOutlineSetting } from 'react-icons/ai';
 
 export default function Sidebar() {
@@ -21,11 +20,12 @@ export default function Sidebar() {
             title: "Home",
             link: "/dashboard",
             placement: "top",
+            onClick: clearSideContent
         },
         {
             icon: <AiOutlineFolderOpen />,
             title: "View All Transactions",
-            link: "/dashboard/transactions",
+            link: "/dashboard/transactions/active",
             placement: "top",
         },
         {
@@ -43,7 +43,7 @@ export default function Sidebar() {
         {
             icon: <AiOutlineSetting />,
             title: "Settings",
-            link: "/dashboard/settings",
+            link: "/dashboard/settings/account",
             placement: "bottom"
         }
     ]
@@ -58,7 +58,7 @@ export default function Sidebar() {
                                 <>
                                     <Tooltip key={link.link} placement="right-end" label={link.title}>
                                         <Link href={link.link}>
-                                            <IconButton onClick={clearSideContent} my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
+                                            <IconButton onClick={link.onClick} my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
                                         </Link>
                                     </Tooltip>
                                 </>
@@ -103,7 +103,7 @@ export default function Sidebar() {
                                 <>
                                     <Tooltip key={link.link} placement="right-end" label={link.title}>
                                         <Link href={link.link}>
-                                            <IconButton onClick={clearSideContent} my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
+                                            <IconButton my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
                                         </Link>
                                     </Tooltip>
                                 </>
