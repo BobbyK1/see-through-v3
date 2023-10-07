@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Button, ButtonGroup, Container, Divider, Grid, GridItem, Select, SimpleGrid, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Divider, Grid, GridItem, Select, SimpleGrid, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import Card from "../../UI/Card";
 import { Link } from "@chakra-ui/next-js";
 
@@ -12,6 +12,8 @@ export default function DashboardContent({ data, activeTransactionCount }) {
                 <GridItem colSpan={[12, 12, 12, 12, 8]}>
                     <Stats firstName={data.first_name} activeTransactionCount={activeTransactionCount} />
                 </GridItem>
+
+				
 
                 <GridItem colSpan={[12, 12, 12, 12, 4]}>
                     <Card p="10" h="400">

@@ -62,6 +62,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
 
     const checkMlsId = async (e) => {
         setUniqueLoading(true);
+        setUnique(null)
 
         if (e.length > 0) {
             await fetch('/api/v1/database/checkMlsIdFieldUnique', {
@@ -87,7 +88,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
     }
 
     return (
-        <Drawer size="lg" isOpen={isOpen} onClose={onClose} onOverlayClick={() => router.replace('/dashboard/transactions')}>
+        <Drawer size="lg" isOpen={isOpen} onClose={onClose}>
             <DrawerOverlay />
             <DrawerContent bgColor="#1c1c1c" color="whitesmoke">
                 <DrawerCloseButton />

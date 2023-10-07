@@ -3,11 +3,12 @@ import DashboardContent from "../components/Content/Dashboard/DashboardPage";
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation";
 import { prisma } from "../Prisma";
+import protectPage from "../utils/protectPage";
 
 export const dynamic = 'force-dynamic';
 
 async function GetProfile(id, supabase) {
-    const { data: profile, error } = await supabase.from('profiles').select("first_name").eq('id', id);
+    const { data: profile, error } = await supabase.from('profiles').select("*").eq('id', id);
 
     if (error) throw new Error(`Error Code For Support: ${error.code}`);
 
@@ -25,13 +26,11 @@ async function GetActiveTransactionsCount(id, supabase) {
     return count;
 }
 
-export default async function Page() {
-    const supabase = createServerComponentClient({ cookies });
-    const { data: activeSession } = await supabase.auth.getSession();
+export default async function Page({  }) {
+    await protectPage();
+    
 
-    if (!activeSession.session) {
-        return redirect('/')
-    }
+    const supabase = createServerComponentClient({ cookies });
 
     const { data } = await supabase.auth.getUser();
 

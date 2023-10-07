@@ -1,4 +1,5 @@
 import ListingInfo from "@/app/components/Content/Transactions/Tabs/LisingInfo";
+import protectPage from "@/app/utils/protectPage";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
@@ -13,12 +14,10 @@ async function GetTransaction(query, supabase) {
 }
 export default async function Page({ params }) {
     const supabase = createServerComponentClient({ cookies });
-    const { data } = await supabase.auth.getUser();
-    const query = await params;
 
-    if (!data) {
-        redirect('/');
-    }
+    await protectPage();
+
+    const query = await params;
 
     const transaction = await GetTransaction(query.id, supabase);
     

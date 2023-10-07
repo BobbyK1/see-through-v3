@@ -1,22 +1,12 @@
-'use client'
+import Account from "@/app/components/Content/Settings/Account";
+import protectPage from "@/app/utils/protectPage";
 
-import Card from "@/app/components/UI/Card";
-import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+export const dynamic = 'force-dynamic'
 
-export default function Page() {
+export default async function Page() {
+    await protectPage();
+    
     return (
-        <>
-            <Text fontSize="lg" fontWeight="bold" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}>Account Settings</Text>
-
-            <Card mt="7" px="10" py="7">
-                <Stack direction="row" w="full">
-                    <Text fontSize="md" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}>General Info</Text>
-
-                    <Box>
-                    
-                    </Box>
-                </Stack>
-            </Card>
-        </>
+        <Account />
     )
 }

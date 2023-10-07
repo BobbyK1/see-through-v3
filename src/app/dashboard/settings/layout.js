@@ -30,7 +30,7 @@ const SidebarContent = () => {
 
         return (
             <Link w="full" textDecor="none" href={href}>
-                <Button size="sm" bg={active ? useColorModeValue("blackAlpha.200", "whiteAlpha.50") : "transparent"} color={active ? useColorModeValue("blackAlpha.700", "whiteAlpha.700") : useColorModeValue("blackAlpha.500", "whiteAlpha.300")}  px="2" variant="unstyled" w="full" _hover={{ textDecor: "underline", color: useColorModeValue("blackAlpha.700", "whiteAlpha.700") }} textAlign="left" {...props}>
+                <Button size="sm" bg={active ? useColorModeValue("blackAlpha.200", "whiteAlpha.50") : "transparent"} color={active ? useColorModeValue("blackAlpha.700", "whiteAlpha.800") : useColorModeValue("blackAlpha.500", "whiteAlpha.500")}  px="2" variant="unstyled" w="full" _hover={{ textDecor: "underline", color: useColorModeValue("blackAlpha.700", "whiteAlpha.700") }} textAlign="left" {...props}>
                     {children}
                 </Button>
             </Link>
@@ -43,7 +43,7 @@ const SidebarContent = () => {
             <ul>
                 <SideButton tab="account" href="/dashboard/settings/account">Account</SideButton>
                 <SideButton tab="profile" href="/dashboard/settings/profile">Profile</SideButton>
-                <SideButton tab="assistants" href="/dashboard/settings/assistants">Assistants</SideButton>
+                {/* <SideButton tab="assistants" href="/dashboard/settings/assistants">Assistants</SideButton> */}
                 <SideButton tab="notifications" href="/dashboard/settings/notifications">Notifications</SideButton>          
             </ul>
         </>

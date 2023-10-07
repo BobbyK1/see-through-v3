@@ -1,12 +1,10 @@
-'use client'
-
+import protectPage from "@/app/utils/protectPage";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
 
+export const dynamic = 'force-dynamic'
 
-export default function Page() {
+export default async function Page() {
+    await protectPage();
 
-    useEffect(() => {
-        return redirect('/dashboard/settings/account');
-    }, [])
+    return redirect('/dashboard/settings/account');
 }

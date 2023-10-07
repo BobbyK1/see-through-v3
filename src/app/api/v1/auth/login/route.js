@@ -5,25 +5,23 @@ import { NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 
 export async function POST(request) {
-  const requestUrl = new URL(request.url)
-  const formData = await request.formData()
-  const email = formData.get('email')
-  const password = formData.get('password')
-  const supabase = createRouteHandlerClient({ cookies }, {
-    options: {
-      
-    }
-  })
+	const requestUrl = new URL(request.url)
+	const body = await request.json()
+	const email = body.email;
+	const password = body.password;
+	const cookieStore = cookies();
+	const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
 
-  await supabase.auth.signInWithOtp({
-    email,
-    options: {
-        emailRedirectTo: `${requestUrl.origin}/auth/callback`,
-        
-    },
-  })
+	
+	const { data, error} = await supabase.auth.signInWithPassword({
+		email: email,
+		password: password
+	})
 
-  return NextResponse.redirect(requestUrl.origin, {
-    status: 301,
-  })
+	if (error) {
+		NextResponse.error(error);
+		throw new Error(error);
+	}
+
+	return NextResponse.redirect(`${requestUrl.origin}/dashboard`)
 }

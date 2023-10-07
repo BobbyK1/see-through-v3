@@ -27,12 +27,12 @@ const SidebarContent = ({ params }) => {
 
     
 
-    const SideButton = ({ children, tab, href, ...props }) => {
+    const SideButton = ({ children, tab, ...props }) => {
         let active = router.includes(tab);
 
         return (
-            <Link href={`/dashboard/transactions/view/${params.id}/${href}`}>
-                <Button size="sm" bg={active ? useColorModeValue("blackAlpha.200", "whiteAlpha.50") : "transparent"} color={active ? useColorModeValue("blackAlpha.700", "whiteAlpha.700") : useColorModeValue("blackAlpha.500", "whiteAlpha.300")} fontSize="sm"  px="2" variant="unstyled" w="full" _hover={{ textDecor: "underline", color: useColorModeValue("blackAlpha.700", "whiteAlpha.700") }} textAlign="left" {...props}>{children}</Button>
+            <Link href={`/dashboard/transactions/view/${params.id}/${tab}`}>
+                <Button size="sm" bg={active ? useColorModeValue("blackAlpha.200", "whiteAlpha.50") : "transparent"} color={active ? useColorModeValue("blackAlpha.700", "whiteAlpha.800") : useColorModeValue("blackAlpha.500", "whiteAlpha.500")} fontSize="sm"  px="2" variant="unstyled" w="full" _hover={{ textDecor: "underline", color: useColorModeValue("blackAlpha.700", "whiteAlpha.700") }} textAlign="left" {...props}>{children}</Button>
             </Link>
         ) 
     }
@@ -46,11 +46,11 @@ const SidebarContent = ({ params }) => {
             <Text fontSize="sm" color="#707070" mb="3" mt="5">Transaction</Text>
 
             <ul>
-                <SideButton tab="listing-info" href="listing-info">Listing Information</SideButton>
-                <SideButton tab="tasks" href="tasks">Tasks</SideButton>
-                <SideButton tab="offers" href="offers">Offers <Tag size="sm" ml="2" colorScheme="green">New</Tag></SideButton>
-                <SideButton tab="assignedClients" href="assigned-clients">Assigned Clients</SideButton>
-                <SideButton tab="settings" href="settings">Settings</SideButton>            
+                <SideButton tab="listing-info">Listing Information</SideButton>
+                <SideButton tab="tasks">Tasks</SideButton>
+                <SideButton tab="offers">Offers <Tag size="sm" ml="2" colorScheme="green">New</Tag></SideButton>
+                <SideButton tab="assigned-clients">Assigned Clients</SideButton>
+                <SideButton tab="settings">Settings</SideButton>            
             </ul>
         </>
     )

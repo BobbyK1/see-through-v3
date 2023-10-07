@@ -44,14 +44,13 @@ const CurrentStatusCards = ({ router, transactions }) => {
                                 <Text fontSize="sm" color={useColorModeValue("blackAlpha.500", "whiteAlpha.500")}>${transaction.price}</Text>
                                 <Text fontSize="lg" noOfLines="1">{transaction.address}</Text>
                             </Box>
-                            <Box>
+                            {/* <Box>
                                 <Text>Offers</Text>
                                 <Text textAlign="right">{transaction.num_of_offers}</Text>
-                            </Box>
+                            </Box> */}
                         </Stack>
                     </Box>
 
-                    <Divider borderColor={useColorModeValue("blackAlpha.400", "#3e3e3e")} />
 
                     <Box onClick={() => router.push(`/dashboard/transactions/view/${transaction.id}/listing-info`)} transition="0.2s ease" _hover={{ bgColor: useColorModeValue("blackAlpha.100", "#3f3e3e"), cursor: "pointer" }} p="2" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")} textAlign="center">
                         View

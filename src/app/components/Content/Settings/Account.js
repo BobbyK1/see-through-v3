@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import Card from "../../UI/Card";
 import { Suspense } from "react";
