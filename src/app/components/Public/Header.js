@@ -1,6 +1,6 @@
 import { useSupabase } from "@/app/context/SupabaseProvider";
 import { Link } from "@chakra-ui/next-js";
-import { Box, Button, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Stack, Text, Tooltip, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Spinner, Stack, Text, Tooltip, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 // import Search from "../ui/Search";
@@ -8,16 +8,7 @@ import { AiOutlineBell, AiOutlineUser } from "react-icons/ai";
 
 
 export default function Header({ children, title, rightButtons, ...props }) {
-    const { user } = useSupabase();
-    const [auth, setAuth] = useState(null);
-
-    useEffect(() => {
-        if (!user) {
-            setAuth(null);
-        } else {
-            setAuth(user);
-        }
-    }, [])
+    const { user, authLoading } = useSupabase();
 
     return (
         <Stack mb="5" direction="row" maxH="14" minH="14" px="5" borderBottomWidth="thin" borderColor={useColorModeValue("#e6e8eb", "#2e2e2e")} justifyContent="space-between" alignItems="center" {...props}>
@@ -26,7 +17,8 @@ export default function Header({ children, title, rightButtons, ...props }) {
             <Stack direction="row" spacing="2">
                 {/* <Button onClick={toggleColorMode}>Toggle</Button> */}
 
-                {auth ? <Text>Logged In</Text> : 
+                {authLoading ? <Spinner size="sm" color="green.500" /> :
+                user ? <Text>Logged In</Text> : 
                 <>
                     <Box>
                         <Button variant="solid" size="xs" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800">Create Account</Button>

@@ -19,7 +19,13 @@ export default function HomePage() {
 				email: email,
 				password: password
 			})
-		}).then(() => router.push('/dashboard'))
+		}).then(() => {
+            router.refresh();
+            router.push('/dashboard');
+        })
+        .catch(error => {
+            console.log(error)
+        })
 
 		setLoading(false);
 	}
