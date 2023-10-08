@@ -12,6 +12,8 @@ export async function POST(request) {
 	const cookieStore = cookies();
 	const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
 
+	console.log(requestUrl)
+
 	
 	const { data, error} = await supabase.auth.signInWithPassword({
 		email: email,
@@ -23,5 +25,5 @@ export async function POST(request) {
 		throw new Error(error);
 	}
 
-	return NextResponse.redirect(`${requestUrl.origin}/dashboard`)
+	return NextResponse.redirect(`${process.env.URL}/dashboard`)
 }

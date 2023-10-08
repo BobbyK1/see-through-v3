@@ -53,7 +53,6 @@ export default function HomePage() {
 
                 <Button variant="solid" size="sm" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800">Create Account</Button>
             </Box>
-            <Text fontSize="xs" color="whiteAlpha.700" position="absolute" bottom="5">Copyright Uplift 2023</Text>
         </>
     )
 }

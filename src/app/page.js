@@ -31,6 +31,8 @@ export default async function Page() {
 
 			<Flex w="70%" h="100%" justifyContent="center" alignItems="center">
 				<Heading fontSize="6xl" color="green.500" as="h1">See Through</Heading>
+
+				<Text fontSize="xs" color="whiteAlpha.700" position="absolute" bottom="5">© 2023, Uplift   <Text as="span" mx="3">•</Text> About Us <Text as="span" mx="3">•</Text> Support <Text as="span" mx="3">•</Text> Forgot Password?</Text>
 			</Flex>
 			<Flex flexDirection="column" px="20" w="30%" h="100%" justifyContent="center" alignItems="center" bg="#1e1e1e">
 				<Suspense fallback={<Loading />}>
