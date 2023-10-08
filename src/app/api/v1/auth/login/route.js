@@ -25,5 +25,5 @@ export async function POST(request) {
 		throw new Error(error);
 	}
 
-	return NextResponse.redirect(`${process.env.URL}/dashboard`)
+	return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/dashboard`)
 }
