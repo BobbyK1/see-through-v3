@@ -19,8 +19,7 @@ export default function Sidebar() {
             icon: <AiOutlineHome />,
             title: "Home",
             link: "/dashboard",
-            placement: "top",
-            onClick: clearSideContent
+            placement: "top"
         },
         {
             icon: <AiOutlineFolderOpen />,

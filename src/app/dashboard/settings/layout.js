@@ -8,9 +8,10 @@ import { useEffect } from "react";
 
 
 export default function SettingsLayout({ children }) {
-    const { updateContent, updateTitle } = useSideContent();
+    const { updateContent, updateTitle, clearSideContent } = useSideContent();
 
     useEffect(() => {
+        clearSideContent();
         updateContent(<SidebarContent title="Settings" />);
         updateTitle("Settings")
     }, [])

@@ -32,7 +32,7 @@ export default async function Page() {
 			<Flex w={["0", "0", "0", "50%", "70%"]} display={["none", "none", "none", "flex"]} h="100%" justifyContent="center" alignItems="center">
 				<Heading fontSize="6xl" color="green.500" as="h1">See Through</Heading>
 
-				<Text fontSize="xs" color="whiteAlpha.700" position="absolute" bottom="5">© 2023, Uplift   <Text as="span" mx="3">•</Text> About Us <Text as="span" mx="3">•</Text> Support <Text as="span" mx="3">•</Text> Forgot Password?</Text>
+				<Text fontSize="xs" color="whiteAlpha.700" position="absolute" bottom="5">© 2023, Uplift   <Text as="span" mx="3">•</Text> Privacy <Text as="span" mx="3">•</Text> Terms <Text as="span" mx="3">•</Text> Support</Text>
 			</Flex>
 			<Flex flexDirection="column" px="14" w={["100%", "100%", "100%", "50%", "30%"]} h="100%" justifyContent="center" alignItems="center" bg="#1e1e1e">
 				<Heading display={["inline-block", "inline-block", "inline-block", "none"]} position="absolute" top="10" fontSize="3xl" color="green.500" as="h1">See Through</Heading>

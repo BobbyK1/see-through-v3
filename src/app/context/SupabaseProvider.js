@@ -38,7 +38,7 @@ export const SupabaseProvider = ({ children }) => {
         await supabase.auth.signOut()
             .then(() => {
                 router.refresh();
-                router.push('/');
+                router.push(`${process.env.NEXT_PUBLIC_URL}/`);
             })
 
         setAuthLoading(false);

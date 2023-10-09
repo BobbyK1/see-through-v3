@@ -8,15 +8,12 @@ import MainWrapper from "../components/Layout/MainWrapper";
 import ColumnWrapper from "../components/Layout/ColumnWrapper";
 import { useSideContent } from "../context/useSideContent";
 import Loading from "./loading";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 
 
 export default function DashboardLayout({ children }) {
-    const { sideContent, title, clearSideContent } = useSideContent();
+    const { sideContent, title } = useSideContent();
 
-    useEffect(() => {
-        clearSideContent
-    }, [])
 
     return (
         <Box display="flex" minH="full" flexDirection="column" bgColor={useColorModeValue("#f8f9fa", "#1c1c1c")}>

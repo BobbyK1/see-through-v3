@@ -52,7 +52,7 @@ const CurrentStatusCards = ({ router, transactions }) => {
                     </Box>
 
 
-                    <Box onClick={() => router.push(`/dashboard/transactions/view/${transaction.id}/listing-info`)} transition="0.2s ease" _hover={{ bgColor: useColorModeValue("blackAlpha.100", "#3f3e3e"), cursor: "pointer" }} p="2" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")} textAlign="center">
+                    <Box onClick={() => router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard/transactions/view/${transaction.id}/listing-info`)} transition="0.2s ease" _hover={{ bgColor: useColorModeValue("blackAlpha.100", "#3f3e3e"), cursor: "pointer" }} p="2" color={useColorModeValue("blackAlpha.800", "whiteAlpha.700")} textAlign="center">
                         View
                     </Box>
                 </Card>

@@ -3,8 +3,15 @@
 import { Box, Button, Divider, Grid, GridItem, Select, SimpleGrid, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import Card from "../../UI/Card";
 import { Link } from "@chakra-ui/next-js";
+import { useSideContent } from "@/app/context/useSideContent";
+import { useEffect } from "react";
 
 export default function DashboardContent({ data, activeTransactionCount }) {
+	const { clearSideContent } = useSideContent();
+
+	useEffect(() => {
+		clearSideContent();
+	}, [])
 
     return (
         <Box maxW="full" px="10">

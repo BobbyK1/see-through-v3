@@ -8,7 +8,7 @@ const SidebarContent = ({ currentTab, setCurrentTab, router }) => {
     
     return (
         <>
-            <Button mr="5" size="sm" w="full" mt="2" onClick={() => router.push('/dashboard/transactions')}>Back</Button>
+            <Button mr="5" size="sm" w="full" mt="2" onClick={() => router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard/transactions`)}>Back</Button>
 
             <Text fontSize="sm" color="#707070" mb="3" mt="5">Transaction</Text>
 

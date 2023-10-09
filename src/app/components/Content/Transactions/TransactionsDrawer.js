@@ -37,7 +37,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
     const submitTransaction = async () => {
         setLoading(true);
 
-        await fetch('/api/v1/database/createTransaction', {
+        await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/database/createTransaction`, {
             method: "post",
             body: JSON.stringify(formData)
         })
@@ -51,7 +51,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                 duration: 5000
             })
             router.refresh();
-            router.push(`/dashboard/transactions/view/${data.id}`)
+            router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard/transactions/view/${data.id}`)
         })
         .catch(error => {
             console.log(error)
@@ -65,7 +65,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
         setUnique(null)
 
         if (e.length > 0) {
-            await fetch('/api/v1/database/checkMlsIdFieldUnique', {
+            await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/database/checkMlsIdFieldUnique`, {
                 method: "POST",
                 body: JSON.stringify({
                     mlsId: e

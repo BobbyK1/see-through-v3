@@ -28,7 +28,6 @@ async function GetActiveTransactionsCount(id, supabase) {
 
 export default async function Page({  }) {
     await protectPage();
-    
 
     const supabase = createServerComponentClient({ cookies });
 

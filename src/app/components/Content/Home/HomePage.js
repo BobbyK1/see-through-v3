@@ -13,7 +13,7 @@ export default function HomePage() {
     const signIn = async () => {
 		setLoading(true);
 
-		await fetch('/api/v1/auth/login', {
+		await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/auth/login`, {
 			method: "POST",
 			body: JSON.stringify({
 				email: email,
@@ -21,7 +21,7 @@ export default function HomePage() {
 			})
 		}).then(() => {
             router.refresh();
-            router.push('/dashboard');
+            router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard`);
         })
         .catch(error => {
             console.log(error)

@@ -9,7 +9,7 @@ export default function Settings ({ id }) {
     const router = useRouter();
 
     const deleteTransaction = async () => {
-        fetch('/api/v1/database/deleteTransaction', {
+        fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/database/deleteTransaction`, {
             method: "POST",
             body: JSON.stringify({
                 id: id
@@ -25,7 +25,7 @@ export default function Settings ({ id }) {
             })
 
             router.refresh();
-            router.push('/dashboard/transactions');
+            router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard/transactions`);
         })
         .catch(error => {
             toast({
