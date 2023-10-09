@@ -77,7 +77,7 @@ const Stats = ({ firstName, activeTransactionCount }) => {
 				</Box>
 			</Stack>
 
-			<SimpleGrid columns={[2, 2, 2, 4]} mt="20" spacing="3">
+			<SimpleGrid columns={[1, 2, 2, 4]} mt="20" spacing="3">
 				<Box p="5" h="fit-content" borderColor={useColorModeValue("none", "#2e2e2e")} borderWidth="thin" borderRadius="5">
 					<Text fontSize="md" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} textAlign="center">Active Transactions</Text>
 					<Text fontSize="2xl" my="3" color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")} textAlign="center">{activeTransactionCount}</Text>

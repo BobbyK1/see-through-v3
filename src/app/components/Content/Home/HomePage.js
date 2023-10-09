@@ -33,7 +33,7 @@ export default function HomePage() {
 
     return (
         <>
-            <Box w="full">
+            <Box w="full" maxW="lg">
                 <Text color="whiteAlpha.700">Sign In</Text>
                 <FormControl mt="5">
                     <FormLabel>Email</FormLabel>

@@ -29,19 +29,20 @@ export default async function Page() {
 	return (
 		<Flex w="full" h="100vh" bg="#1c1c1c">
 
-			<Flex w="70%" h="100%" justifyContent="center" alignItems="center">
+			<Flex w={["0", "0", "0", "50%", "70%"]} display={["none", "none", "none", "flex"]} h="100%" justifyContent="center" alignItems="center">
 				<Heading fontSize="6xl" color="green.500" as="h1">See Through</Heading>
 
 				<Text fontSize="xs" color="whiteAlpha.700" position="absolute" bottom="5">© 2023, Uplift   <Text as="span" mx="3">•</Text> About Us <Text as="span" mx="3">•</Text> Support <Text as="span" mx="3">•</Text> Forgot Password?</Text>
 			</Flex>
-			<Flex flexDirection="column" px="20" w="30%" h="100%" justifyContent="center" alignItems="center" bg="#1e1e1e">
+			<Flex flexDirection="column" px="14" w={["100%", "100%", "100%", "50%", "30%"]} h="100%" justifyContent="center" alignItems="center" bg="#1e1e1e">
+				<Heading display={["inline-block", "inline-block", "inline-block", "none"]} position="absolute" top="10" fontSize="3xl" color="green.500" as="h1">See Through</Heading>
 				<Suspense fallback={<Loading />}>
 					{user ? 
 						<>
 							<Box w="full">
 								<Text color="whiteAlpha.700">Welcome back, {name}!</Text>
 								<Link href="/dashboard">
-									<Button  variant="solid" size="sm" w="full" mt="5" bg="green.500" colorScheme="green" borderWidth="thin" borderColor="green.400">Continue To Dashboard</Button>
+									<Button variant="solid" size="sm" w="full" mt="5" bg="green.500" colorScheme="green" borderWidth="thin" borderColor="green.400">Continue To Dashboard</Button>
 								</Link>
 
 								<Box h="0.5" borderColor="whiteAlpha.500" borderWidth="thin" w="full" my="7">
@@ -56,6 +57,8 @@ export default async function Page() {
 							<HomePage />
 						</>
 					}
+
+					<Text display={["inline-block", "inline-block", "inline-block", "none"]} fontSize="xs" color="whiteAlpha.700" position="absolute" bottom="5">© 2023, Uplift   <Text as="span" mx="3">•</Text> About Us <Text as="span" mx="3">•</Text> Support <Text as="span" mx="3">•</Text> Forgot Password?</Text>
 				</Suspense>
 			</Flex>
 
