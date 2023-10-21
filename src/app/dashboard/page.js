@@ -4,6 +4,10 @@ import { cookies } from "next/headers"
 
 export const dynamic = 'force-dynamic';
 
+export const metadata = {
+    title: "Dashboard - See Through"
+}
+
 async function GetProfile(id, supabase) {
     const { data: profile, error } = await supabase.from('profiles').select("*").eq('id', id);
 

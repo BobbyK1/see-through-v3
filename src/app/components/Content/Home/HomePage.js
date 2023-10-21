@@ -2,7 +2,7 @@
 
 import { Link } from "@chakra-ui/next-js";
 import { Box, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react"
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react"
 
 export default function HomePage() {
@@ -10,6 +10,7 @@ export default function HomePage() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
     const router = useRouter();
+    const params = useSearchParams();
 
     const signIn = async () => {
 		setLoading(true);
@@ -27,9 +28,17 @@ export default function HomePage() {
 
                 switch(data.role) {
                     case 'agent':
-                        return router.push('/dashboard');
+                        if (params.has('continue')) {
+                            return router.push(params.get('continue'))
+                        } else {
+                            return router.push('/dashboard')
+                        }
                     case 'guest_agent':
-                        return router.push('/public');
+                        if (params.has('continue')) {
+                            return router.push(params.get('continue'))
+                        } else {
+                            return router.push('/public')
+                        }
                     default:
                         return;
                 }

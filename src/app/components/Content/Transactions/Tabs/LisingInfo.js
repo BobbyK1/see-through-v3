@@ -3,7 +3,7 @@
 import SmallButton from "@/app/components/UI/Button";
 import Card from "@/app/components/UI/Card";
 import { Link } from "@chakra-ui/next-js";
-import { Box, Button, Center, Divider, Flex, Grid, GridItem, Icon, Stack, Tag, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Center, Divider, Flex, Grid, GridItem, Icon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Stack, Tag, Text, useColorModeValue } from "@chakra-ui/react";
 import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDollar, AiOutlineUser, AiOutlineUserSwitch } from "react-icons/ai";
 
 
@@ -24,6 +24,39 @@ export default function ListingInfo ({ data }) {
 
             <Grid mt="10" w="full" templateColumns='repeat(10, 1fr)' gap="3">
                 <GridItem colSpan="5">
+                    <Card minH="full" p="5">
+                        <Text color="whiteAlpha.700">Assigned Clients</Text>
+
+                        <Divider my="2" borderColor="#2e2e2e" />
+
+                        <Flex direction="column" justifyContent="center" alignItems="center" h="32">
+                            <Text color="whiteAlpha.800">No clients assigned yet...</Text>
+
+                            <Link href={`/dashboard/transactions/view/${data.id}/assigned-clients`} mt="5">
+                                <Button variant="ghost" size="sm" color="whiteAlpha.800">Assign Clients</Button>
+                            </Link>
+                        </Flex>
+                    </Card>
+                </GridItem>
+                
+                <GridItem colSpan="2">
+                    <Card p="5" minH="full" >
+                        <Text fontSize="md" color="whiteAlpha.700">Offers</Text>
+
+                        <Divider my="2" borderColor="#2e2e2e" />
+
+                        <Flex direction="column" h="32" justifyContent="center" alignItems="center">
+                            <Text textAlign="center" my="3" fontSize="2xl" color="whiteAlpha.800">{data.num_of_offers}</Text>
+
+                        
+                            <Link href={`/dashboard/transactions/view/${data.id}/offers`}>
+                                <Button variant="ghost" size="sm" color="whiteAlpha.800">View All</Button>
+                            </Link>
+                        </Flex>
+                    </Card>
+                </GridItem>
+
+                <GridItem colSpan="3">
                     <Card p="5">
                        <Text color="whiteAlpha.700">General Info</Text>
 
@@ -45,35 +78,6 @@ export default function ListingInfo ({ data }) {
                                 <Text>{data.co_listing_agent ? data.co_listing_agent : "N/a"}</Text>
                             </Stack>
                        </Stack>
-                    </Card>
-                </GridItem>
-                
-                <GridItem colSpan="2">
-                    <Card p="5" minH="full" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                        <Text textAlign="center" fontSize="md" color="whiteAlpha.700">Offers</Text>
-                        <Text textAlign="center" my="3" fontSize="2xl" color="whiteAlpha.800">{data.num_of_offers}</Text>
-
-                        <Center>
-                            <Link href={`/dashboard/transactions/view/${data.id}/offers`}>
-                                <Button variant="ghost" size="sm" color="whiteAlpha.800">View All</Button>
-                            </Link>
-                        </Center>
-                    </Card>
-                </GridItem>
-
-                <GridItem colSpan="3">
-                    <Card minH="full" p="5">
-                        <Text color="whiteAlpha.700">Assigned Clients</Text>
-
-                        <Divider my="2" borderColor="#2e2e2e" />
-
-                        <Flex direction="column" justifyContent="center" alignItems="center" h="32">
-                            <Text color="whiteAlpha.800">No clients assigned yet...</Text>
-
-                            <Link href={`/dashboard/transactions/view/${data.id}/assigned-clients`} mt="5">
-                                <Button variant="ghost" size="sm" color="whiteAlpha.800">Assign Clients</Button>
-                            </Link>
-                        </Flex>
                     </Card>
                 </GridItem>
                 <GridItem colSpan="10">

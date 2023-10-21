@@ -3,7 +3,7 @@
 import { Button, Flex, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useClipboard } from "@chakra-ui/react";
 
 const LinkModal = ({ onClose, isOpen, id }) => {
-    const { onCopy, value, setValue, hasCopied } = useClipboard(`https://seethroughre.com/public/${id}`);
+    const { onCopy, value, setValue, hasCopied } = useClipboard(`${process.env.NEXT_PUBLIC_URL}/public/${id}`);
 
     return (
         <>

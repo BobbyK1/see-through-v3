@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import { AiOutlineArrowLeft, AiOutlineDown, AiOutlineEdit, AiOutlineLink } from "react-icons/ai";
 import LinkModal from "@/app/components/Content/Transactions/View/LinkModal";
+import PreviewModal from "@/app/components/Content/Transactions/View/PreviewModal";
 
 
 export default function Layout({ children, params }) {
@@ -25,15 +26,12 @@ export default function Layout({ children, params }) {
                 {children}
             </Suspense>
 
-            <LinkModal id={params.id} isOpen={isOpen} onClose={onClose} />
         </>
     )
 }
 
 const SidebarContent = ({ params, onOpen }) => {
     const router = usePathname();
-
-    
 
     const SideButton = ({ children, tab, ...props }) => {
         let active = router.includes(tab);
@@ -53,19 +51,15 @@ const SidebarContent = ({ params, onOpen }) => {
                 </Link>
 
                 <ButtonGroup isAttached w="full" variant="solid">
-                    <IconButton title="Get sharable link" onClick={onOpen} icon={<AiOutlineLink />} />
+                    <LinkButton params={params} />
                     <IconButton title="Edit Listing Info" icon={<AiOutlineEdit />} />
 
                     <Menu>
                         <MenuButton fontSize="sm" as={Button} rightIcon={<AiOutlineDown />}>
                             More
                         </MenuButton>
-                        <MenuList>
-                            <MenuItem>Download</MenuItem>
-                            <MenuItem>Create a Copy</MenuItem>
-                            <MenuItem>Mark as Draft</MenuItem>
-                            <MenuItem>Delete</MenuItem>
-                            <MenuItem>Attend a Workshop</MenuItem>
+                        <MenuList bg="#2e2e2e">
+                            <PreviewButton params={params} />
                         </MenuList>
                     </Menu>
                     
@@ -83,6 +77,30 @@ const SidebarContent = ({ params, onOpen }) => {
             </ul>
 
             
+        </>
+    )
+}
+
+const PreviewButton = ({ params }) => {
+    const { onOpen, onClose, isOpen } = useDisclosure();
+
+    return (
+        <>
+            <MenuItem bg="#2e2e2e" _hover={{ bg: "#3e3e3e" }} onClick={onOpen}>Preview Public Page</MenuItem>
+
+            <PreviewModal id={params.id} isOpen={isOpen} onClose={onClose} />
+        </>
+    )
+}
+
+const LinkButton = ({ params }) => {
+    const { onOpen, onClose, isOpen } = useDisclosure();
+
+    return (
+        <>
+            <IconButton title="Get sharable link" onClick={onOpen} icon={<AiOutlineLink />} />
+
+            <LinkModal id={params.id} isOpen={isOpen} onClose={onClose} />
         </>
     )
 }

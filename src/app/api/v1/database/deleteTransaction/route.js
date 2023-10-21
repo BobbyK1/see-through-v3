@@ -1,5 +1,6 @@
-import { prisma } from '@/app/Prisma';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic'
 
@@ -12,17 +13,13 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request) {
     const body = await request.json();
+    const supabase = createServerComponentClient({ cookies });
 
-    try {
-        const createdTransaction = await prisma.transactions.delete({ where: { id: body.id }});
+    const { data, error } = await supabase.from('transactions').delete().eq('id', body.id);
 
-        return NextResponse.json({ id: createdTransaction.id })
-    } catch (error) {
-        const errorMessage = 'An error occurred while deleting the transaction.';
-        const errorResponse = { error: errorMessage };
+    if (error) throw new Error(error.message);
 
-        return NextResponse.json(errorResponse, { status: 500 });
-    } finally {
-        await prisma.$disconnect();
-    }
+    return NextResponse.json({
+        id: data.id
+    })
 }

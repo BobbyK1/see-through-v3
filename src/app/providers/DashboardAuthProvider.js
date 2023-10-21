@@ -12,34 +12,33 @@ export const useDashAuth = () => useContext(DashboardContext);
 export const DashboardAuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const supabase = createClientComponentClient();
-    const [role, setRole] = useState('');
     const router = useRouter();
+    
+
 
     const checkRole = async () => {
         setLoading(true);
 
         const { data : { user, error } } = await supabase.auth.getUser();
 
+        // Redirect if user object is null
         if (!user) {
-            return router.push('/');
+            return router.push(`/?continue=${encodeURIComponent(window.location.href)}`);
         }
 
         const { data } = await supabase.from('profiles').select('role').eq('id', user.id);
 
         if (error) throw new Error(error.message);
-
+        
+        // Redirect if user is not agent role
         if (data[0].role !== "agent") {
-            return router.push('/');
+            return router.push(`/`);
         }
 
-        setRole(data[0].role);
-
-        console.log(data[0].role)
         setLoading(false);
     }
 
     useEffect(() => {
-        console.log(role);
         checkRole();
     }, [])
     

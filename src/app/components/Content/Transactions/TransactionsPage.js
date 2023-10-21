@@ -32,7 +32,7 @@ const CurrentStatusCards = ({ router, transactions }) => {
         <> 
         {transactions.map(transaction => {
             return (
-                <Card key={transaction.mls_id} maxW="550" p="0">
+                <Card key={transaction.mls_id} maxW="1000" p="0">
                     <Box p="3">
                         <Text fontSize="sm" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>{transaction.mls_id} <Tag ml="3" size="sm" variant="outline" colorScheme="green" textTransform="capitalize">{transaction.status}</Tag></Text>
                     </Box>
