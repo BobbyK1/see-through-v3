@@ -18,7 +18,5 @@ export async function POST(request) {
         throw new Error(error);
     }
 
-
-
     return NextResponse.json(data)
 }

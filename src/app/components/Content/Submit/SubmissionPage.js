@@ -1,28 +1,26 @@
 'use client'
 
-import { useSideContent } from "@/app/context/useSideContent";
-import { useEffect } from "react";
-import Search from "../../UI/Search";
-
+import { useSupabase } from "@/app/context/SupabaseProvider"
+import { Container, Input } from "@chakra-ui/react"
 
 export default function SubmissionPage() {
-    const { updateTitle, updateContent } = useSideContent();
+    const { supabase } = useSupabase();
 
-    useEffect(() => {
-        updateContent(<SidebarContent />)
-        updateTitle("Submit Offer")
-    }, [])
+    const search = async (query) => {
+        if (query.length > 4) {
+            var { data, error } = await supabase.from('transactions').select().textSearch('fts', query, { type: 'websearch', config: 'english'});
+        }
 
-    return (
-        <></>
-    )
-}
+        if (error) throw new Error(error.message);
 
-const SidebarContent = () => {
+        console.log(data);
+    }
 
     return (
         <>
-            <Search />
+            <Container maxW="container.lg" mx="auto">
+                <Input bg="#1e1e1e" onChange={(e) => search(e.target.value)} placeholder="Search by MLS ID, Address, or Listing/Co. Listing Agent..." />
+            </Container>
         </>
     )
 }

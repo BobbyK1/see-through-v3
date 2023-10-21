@@ -4,7 +4,8 @@ import { useSideContent } from "@/app/context/useSideContent";
 import { Link } from "@chakra-ui/next-js";
 import { Button, useColorModeValue } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import Loading from "./loading";
 
 
 export default function SettingsLayout({ children }) {
@@ -18,7 +19,9 @@ export default function SettingsLayout({ children }) {
 
     return (
         <>
-            {children}
+            <Suspense fallback={<Loading />}>
+                {children}
+            </Suspense>
         </>
     )
 }

@@ -1,5 +1,4 @@
 import Profile from "@/app/components/Content/Settings/Profile";
-import protectPage from "@/app/utils/protectPage";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
@@ -14,8 +13,6 @@ async function GetProfile(supabase, id) {
 }
 
 export default async function Page() {
-    await protectPage();
-    
     const supabase = createServerComponentClient({ cookies });
     const { data } = await supabase.auth.getUser();
 

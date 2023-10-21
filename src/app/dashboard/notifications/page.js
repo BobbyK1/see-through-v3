@@ -7,7 +7,7 @@ import protectPage from "@/app/utils/protectPage";
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-    await protectPage();
+     
     
     const supabase = createServerComponentClient({ cookies });
     const { data: activeSession } = await supabase.auth.getSession();

@@ -1,5 +1,6 @@
 'use client'
 
+import { Link } from "@chakra-ui/next-js";
 import { Box, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react"
 import { useRouter } from "next/navigation";
 import { useState } from "react"
@@ -19,13 +20,20 @@ export default function HomePage() {
 				email: email,
 				password: password
 			})
-		}).then(() => {
-            router.refresh();
-            router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard`);
-        })
-        .catch(error => {
-            console.log(error)
-        })
+		})
+            .then(data => data.json())
+            .then(data => {
+                router.refresh();
+
+                switch(data.role) {
+                    case 'agent':
+                        return router.push('/dashboard');
+                    case 'guest_agent':
+                        return router.push('/public');
+                    default:
+                        return;
+                }
+            })
 
 		setLoading(false);
 	}
@@ -51,7 +59,9 @@ export default function HomePage() {
                     <Text mt="-3.5" p="0.5" px="2" mx="auto" bgColor="#1e1e1e" w="fit-content" color="whiteAlpha.700">Or</Text>
                 </Box>
 
-                <Button variant="solid" size="sm" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800">Create Account</Button>
+                <Link href="/create-account">
+                    <Button variant="solid" size="sm" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800">Create Account</Button>
+                </Link>
             </Box>
         </>
     )

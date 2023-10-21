@@ -1,28 +1,36 @@
 'use client'
 
 import { useSideContent } from "@/app/context/useSideContent";
+import Loading from "./loading";
 import { Link } from "@chakra-ui/next-js";
-import { Button, Tag, Text, useColorModeValue } from "@chakra-ui/react";
+import { Button, ButtonGroup, IconButton, Menu, MenuButton, MenuItem, MenuList, Stack, Tag, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import { AiOutlineArrowLeft, AiOutlineDown, AiOutlineEdit, AiOutlineLink } from "react-icons/ai";
+import LinkModal from "@/app/components/Content/Transactions/View/LinkModal";
 
 
 export default function Layout({ children, params }) {
     const { updateContent, updateTitle } = useSideContent();
+    const { onOpen, onClose, isOpen } = useDisclosure();
 
     useEffect(() => {
-        updateContent(<SidebarContent params={params} />);
+        updateContent(<SidebarContent params={params} onOpen={onOpen} />);
         updateTitle("Transaction")
     }, [])
 
     return (
         <>
-            {children}
+            <Suspense fallback={<Loading />}>
+                {children}
+            </Suspense>
+
+            <LinkModal id={params.id} isOpen={isOpen} onClose={onClose} />
         </>
     )
 }
 
-const SidebarContent = ({ params }) => {
+const SidebarContent = ({ params, onOpen }) => {
     const router = usePathname();
 
     
@@ -39,19 +47,42 @@ const SidebarContent = ({ params }) => {
     
     return (
         <>
-            <Link href="/dashboard/transactions/active">
-                <Button mr="5" size="sm" w="full" mt="2">Back</Button>
-            </Link>
+            <Stack direction="row" w="full" justify="space-between">
+                <Link href="/dashboard/transactions/active">
+                    <IconButton title="Back to transactions" icon={<AiOutlineArrowLeft />} />
+                </Link>
+
+                <ButtonGroup isAttached w="full" variant="solid">
+                    <IconButton title="Get sharable link" onClick={onOpen} icon={<AiOutlineLink />} />
+                    <IconButton title="Edit Listing Info" icon={<AiOutlineEdit />} />
+
+                    <Menu>
+                        <MenuButton fontSize="sm" as={Button} rightIcon={<AiOutlineDown />}>
+                            More
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem>Download</MenuItem>
+                            <MenuItem>Create a Copy</MenuItem>
+                            <MenuItem>Mark as Draft</MenuItem>
+                            <MenuItem>Delete</MenuItem>
+                            <MenuItem>Attend a Workshop</MenuItem>
+                        </MenuList>
+                    </Menu>
+                    
+                </ButtonGroup>
+
+            </Stack>
 
             <Text fontSize="sm" color="#707070" mb="3" mt="5">Transaction</Text>
 
             <ul>
                 <SideButton tab="listing-info">Listing Information</SideButton>
-                <SideButton tab="tasks">Tasks</SideButton>
                 <SideButton tab="offers">Offers <Tag size="sm" ml="2" colorScheme="green">New</Tag></SideButton>
                 <SideButton tab="assigned-clients">Assigned Clients</SideButton>
                 <SideButton tab="settings">Settings</SideButton>            
             </ul>
+
+            
         </>
     )
 }

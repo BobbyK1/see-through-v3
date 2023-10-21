@@ -1,9 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import DashboardContent from "../components/Content/Dashboard/DashboardPage";
 import { cookies } from "next/headers"
-import { redirect } from "next/navigation";
-import { prisma } from "../Prisma";
-import protectPage from "../utils/protectPage";
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +24,7 @@ async function GetActiveTransactionsCount(id, supabase) {
 }
 
 export default async function Page({  }) {
-    await protectPage();
+     
 
     const supabase = createServerComponentClient({ cookies });
 

@@ -1,6 +1,5 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Text, useToast } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react"
 import { Suspense } from "react"
-import { redirect } from "next/navigation"
 import Loading from "./dashboard/loading"
 import HomePage from "./components/Content/Home/HomePage"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
@@ -10,29 +9,29 @@ import LogoutButton from "./components/Content/Home/LogoutButton"
 
 export const dynamic = 'force-dynamic';
 
-async function GetName(supabase) {
-	const { data } = await supabase.from('profiles').select('full_name');
+async function GetProfile(supabase, id) {
+	const { data } = await supabase.from('profiles').select('*').eq('id', id);
 
-	return data[0].full_name;
+	return data[0];
 }
 
 export default async function Page() {
 	const supabase = createServerComponentClient({ cookies })
 	const { data: { user } } = await supabase.auth.getUser();
 
-	const name = await GetName(supabase);
+	let profile;
 
-	const SignOut = async () => {
-		return await supabase.auth.signOut();
+	if (user) {
+		profile = await GetProfile(supabase, user.id);
 	}
-
+	
 	return (
 		<Flex w="full" h="100vh" bg="#1c1c1c">
 
 			<Flex w={["0", "0", "0", "50%", "70%"]} display={["none", "none", "none", "flex"]} h="100%" justifyContent="center" alignItems="center">
 				<Heading fontSize="6xl" color="green.500" as="h1">See Through</Heading>
 
-				<Text fontSize="xs" color="whiteAlpha.700" position="absolute" bottom="5">© 2023, Uplift   <Text as="span" mx="3">•</Text> Privacy <Text as="span" mx="3">•</Text> Terms <Text as="span" mx="3">•</Text> Support</Text>
+				<Text fontSize="xs" color="whiteAlpha.700" position="absolute" bottom="5">© 2023, Uplift <Text as="span" mx="3">•</Text> Privacy <Text as="span" mx="3">•</Text> Terms <Text as="span" mx="3">•</Text> Support</Text>
 			</Flex>
 			<Flex flexDirection="column" px="14" w={["100%", "100%", "100%", "50%", "30%"]} h="100%" justifyContent="center" alignItems="center" bg="#1e1e1e">
 				<Heading display={["inline-block", "inline-block", "inline-block", "none"]} position="absolute" top="10" fontSize="3xl" color="green.500" as="h1">See Through</Heading>
@@ -40,8 +39,9 @@ export default async function Page() {
 					{user ? 
 						<>
 							<Box w="full">
-								<Text color="whiteAlpha.700">Welcome back, {name}!</Text>
-								<Link href="/dashboard">
+								<Text color="whiteAlpha.700">Welcome back, {profile.first_name}!</Text>
+
+								<Link href={profile.role === "agent" ? '/dashboard' : '/public'}>
 									<Button variant="solid" size="sm" w="full" mt="5" bg="green.500" colorScheme="green" borderWidth="thin" borderColor="green.400">Continue To Dashboard</Button>
 								</Link>
 

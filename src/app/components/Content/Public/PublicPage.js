@@ -2,8 +2,6 @@
 
 import { Box, Button, Center, Container, Divider, Icon, Stack, Tag, Text } from "@chakra-ui/react"
 import Card from "../../UI/Card"
-import { useSupabase } from "@/app/context/SupabaseProvider"
-import { LuUser2, LuUserPlus2 } from 'react-icons/lu'
 
 export default function PublicPage({ data }) {
     // const { user } = useSupabase();
@@ -24,7 +22,9 @@ export default function PublicPage({ data }) {
 
                 {!user && <SignIn />}
 
-                {user && <TransactionCard data={data} />}
+                {user && <></>}
+
+                {/* {user && <TransactionCard data={data} />} */}
             </Box>
         </Container>
     )
@@ -33,35 +33,55 @@ export default function PublicPage({ data }) {
 const TransactionCard = ({ data }) => {
 
     return (
-        <Card mt="10">
-            <Stack direction={["column", "column", "column", "row"]} spacing="5">
-                <Box w={["full", "full", "full", "50%"]}>
-                    <Map address={data.address} />
-                </Box>
-
-                <Box flexDirection="column" display="flex" justifyContent="center" alignItems="center" w={["full", "full", "full", "50%"]}>
-                    <Box>
-                        <Center mb="2">
-                            <Icon fontSize="xl" textAlign="center" as={LuUser2} />
-                        </Center>
-                        <Text textAlign="center">{data.listing_agent}</Text>
-                    </Box>
-
-                    <Divider my="5" />
-
-                    <Box w="fit-content" mx="auto">
-                        <Text textAlign="center" color="whiteAlpha.700" fontSize="sm">Offers</Text>
-                        <Text textAlign="center" color="whiteAlpha.800" fontSize="xl">0</Text>
-
-                        <Button w="fit-content" mt="3" variant="solid" size="xs" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">View all</Button>
-
-                    </Box>
-                </Box>
-            </Stack>
-            
-        </Card>
+        <>
+            <></>
+        </>
     )
 }
+
+// const TransactionCard = ({ data }) => {
+
+//     return (
+//         <Card mt="10" w="fit-content">
+//                 {/* <Box w={["full", "full", "full", "50%"]}>
+//                     <Map address={data.address} />
+//                 </Box> */}
+
+//                 <Box flexDirection="column" display="flex" justifyContent="center" alignItems="center" w={["full", "full", "full", "50%"]}>
+//                     <Box>
+//                         <Center mb="2">
+//                             <Icon fontSize="xl" textAlign="center" as={LuUser2} />
+//                         </Center>
+//                         <Text textAlign="center">{data.listing_agent}</Text>
+//                     </Box>
+
+//                     <Divider my="5" />
+
+//                     <Stack direction="row" justify="space-between" w="full">
+
+//                         <Box w="fit-content" mx="auto">
+//                             <Text textAlign="center" color="whiteAlpha.700" fontSize="sm">Offers</Text>
+//                             <Text textAlign="center" color="whiteAlpha.800" fontSize="xl">0</Text>
+
+//                             <Button w="fit-content" mt="3" variant="solid" size="xs" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">View all</Button>
+
+//                         </Box>
+
+//                         <Box w="fit-content" mx="auto">
+//                             <Text textAlign="center" color="whiteAlpha.700" fontSize="sm">Offers in the last 30 days</Text>
+//                             <Text textAlign="center" color="whiteAlpha.800" fontSize="xl">0</Text>
+
+//                             <Center>
+//                                 <Button w="fit-content" mt="3" variant="solid" size="xs" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">View all</Button>
+//                             </Center>
+//                         </Box>
+
+//                     </Stack>
+//                 </Box>
+            
+//         </Card>
+//     )
+// }
 
 const SignIn = () => {
     return (

@@ -3,6 +3,13 @@ import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
+/**
+ * Handle HTTP POST requests to delete a transaction in the 'transactions' table.
+ *
+ * @param {Request} request - The HTTP request object.
+ * @returns {Response} - A JSON response indicating the ID of the deleted transaction or an error response.
+ */
+
 export async function POST(request) {
     const body = await request.json();
 

@@ -3,9 +3,11 @@
 import TransactionDrawer from "@/app/components/Content/Transactions/TransactionsDrawer";
 import { useSideContent } from "@/app/context/useSideContent";
 import { Link } from "@chakra-ui/next-js";
-import { Button, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { Box, Button, ButtonGroup, IconButton, Input, Stack, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
+import { usePathname, useRouter } from "next/navigation";
+import { Suspense, useEffect } from "react";
+import Loading from "./loading";
+import { AiOutlineFileAdd } from "react-icons/ai";
 
 
 export default function Layout({ children }) {
@@ -19,7 +21,9 @@ export default function Layout({ children }) {
 
     return (
         <>
-            {children}
+            <Suspense fallback={<Loading />}>
+                {children}
+            </Suspense>
 
             <TransactionDrawer isOpen={isOpen} onClose={onClose} />
         </>
@@ -27,16 +31,16 @@ export default function Layout({ children }) {
 }
 
 const SidebarContent = ({ onOpen }) => {
-    const router = usePathname();
+    const path = usePathname();
+    const router = useRouter();
 
     const SideButton = ({ children, tab, href, ...props }) => {
-        let active = router.includes(tab);
+        let active = path.includes(tab);
 
         return (
             <Link href={href}>
                 <Button size="sm" bg={active ? useColorModeValue("blackAlpha.200", "whiteAlpha.50") : "transparent"} color={active ? useColorModeValue("blackAlpha.700", "whiteAlpha.800") : useColorModeValue("blackAlpha.500", "whiteAlpha.500")}  px="2" variant="unstyled" w="full" _hover={{ textDecor: "underline", color: useColorModeValue("blackAlpha.700", "whiteAlpha.700") }} textAlign="left" {...props}>
                     {children}
-                
                 </Button>
             </Link>
         )
@@ -44,7 +48,15 @@ const SidebarContent = ({ onOpen }) => {
     
     return (
         <>
-            <Button size="sm" w="full" mb="5" color={useColorModeValue("white", "whiteAlpha.800")} onClick={onOpen} mt="2" colorScheme="green" bgColor="green.600">Create Transaction</Button>
+            <Box>
+                <Stack direction="row" spacing="2">
+                    <IconButton title="Create Transaction" icon={<AiOutlineFileAdd />} onClick={onOpen} />
+                    <Input placeholder="Search..." />
+                </Stack>
+                <ButtonGroup isAttached w="full" variant="solid">
+                    
+                </ButtonGroup>
+            </Box>
 
             <Text fontSize="sm" color="#707070" mb="3" mt="5">Status</Text>
 
