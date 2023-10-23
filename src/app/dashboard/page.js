@@ -8,10 +8,10 @@ export const metadata = {
     title: "Dashboard - See Through"
 }
 
-async function GetProfile(id, supabase) {
-    const { data: profile, error } = await supabase.from('profiles').select("*").eq('id', id);
+async function GetName(id, supabase) {
+    const { data: profile, error } = await supabase.from('profiles').select("first_name").eq('id', id);
 
-    if (error) throw new Error(`Error Code For Support: ${error.code}`);
+    if (error) throw new Error(error.message);
 
     return profile[0];
 }
@@ -22,22 +22,29 @@ async function GetActiveTransactionsCount(id, supabase) {
         .select('*', { count: 'exact', head: true })
         .filter('user_id', "eq", id)
 
-    if (error) throw new Error(`Error Code For Support: ${error.code}`);
+    if (error) throw new Error(error.message);
 
     return count;
 }
 
-export default async function Page({  }) {
-     
+async function GetTodayTask(id, supabase) {
+    const { data: tasks, error } = await supabase.from('tasks').select('transaction_id,title,due_date').eq('user_id', id).eq('due_date', new Date().toISOString().split('T')[0]);
 
+    if (error) throw new Error(error.message);
+
+    return tasks;
+}
+
+export default async function Page({  }) {
     const supabase = createServerComponentClient({ cookies });
 
     const { data } = await supabase.auth.getUser();
 
-    const profile = await GetProfile(data.user.id, supabase);
+    const profile = await GetName(data.user.id, supabase);
     const activeTransactionCount = await GetActiveTransactionsCount(data.user.id, supabase)
+    const todayTasks = await GetTodayTask(data.user.id, supabase);
 
     return (
-        <DashboardContent data={profile} activeTransactionCount={activeTransactionCount} />
+        <DashboardContent data={profile} activeTransactionCount={activeTransactionCount} todayTasks={todayTasks} />
     )
 }

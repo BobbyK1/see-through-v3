@@ -11,14 +11,21 @@ async function GetTransaction(query, supabase) {
 
     return transactions;
 }
+
+async function GetTasks(query, supabase) {
+    const { data: tasks, error} = await supabase.from('tasks').select("*").eq('transaction_id', query);
+    if (error) throw new Error(error.message);
+
+    return tasks
+}
+
 export default async function Page({ params }) {
     const supabase = createServerComponentClient({ cookies });
-
-     
-
     const query = await params;
 
     const transaction = await GetTransaction(query.id, supabase);
+
+    const tasks = await GetTasks(query.id, supabase);
     
-    return <ListingInfo data={transaction[0]} />
+    return <ListingInfo data={transaction[0]} tasks={tasks} />
 }
