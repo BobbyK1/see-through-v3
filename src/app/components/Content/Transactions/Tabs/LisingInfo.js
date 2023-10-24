@@ -190,11 +190,7 @@ export default function ListingInfo ({ data, tasks }) {
                                 .slice() // Create a copy of the tasks array to avoid mutating the original
                                 .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
                                 .map(task => {
-                                    const formattedDueDate = new Date(task.due_date).toLocaleDateString('en-US', {
-                                        year: 'numeric',
-                                        month: '2-digit',
-                                        day: '2-digit',
-                                    });
+
 
                                     return (
                                         <Fade in={true}>
@@ -210,7 +206,7 @@ export default function ListingInfo ({ data, tasks }) {
                                                 <GridItem colSpan="3">
                                                     <Flex direction="row">
                                                         <Icon as={AiOutlineCalendar} fontSize="xl" color="whiteAlpha.700" />
-                                                        <Text ml="5" color="whiteAlpha.700">{formattedDueDate}</Text>
+                                                        <Text ml="5" color="whiteAlpha.700">{task.due_date}</Text>
                                                     </Flex>
                                                 </GridItem>
                                                 <GridItem colSpan="4" display="flex" justifyContent="flex-end" alignItems="center">

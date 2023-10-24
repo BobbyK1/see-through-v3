@@ -27,12 +27,14 @@ export async function POST(request) {
     const { data, error } = await supabase.from('transactions').insert([
         {
             address: body.address,
-            mls_id: body.mlsId,
+            mls_id: body.mls_id,
             price: body.price,
-            listing_agent: body.listingAgent,
-            co_listing_agent: body.coListingAgent,
+            listing_agent: body.listing_agent,
+            co_listing_agent: body.co_listing_agent,
             user_id: id,
-            status: "active"
+            status: body.status,
+            listing_approved_by_mls: body.listing_approved_by_mls,
+            consent_to_share_offer_amount: body.consent_to_share_offer_amount
         }
     ]).select('id');
 

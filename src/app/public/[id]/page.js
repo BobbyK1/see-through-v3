@@ -16,10 +16,22 @@ async function GetTransaction(id, supabase, user) {
     return transactions[0];
 }
 
+async function GetOffer(id, supabase, user) {
+    const { data, error } = await supabase.from('offers').select('*').eq('user_id', user.id).eq('transaction_id', id)
+
+    if (data.length > 0) {
+        return data[0];
+    } else {
+        return null
+    }
+}
+
 export default async function Page({ params }) {
     const supabase = createServerComponentClient({ cookies })
     const { data: { user } } = await supabase.auth.getUser();
+
     const transaction = await GetTransaction(params.id, supabase, user);
+    const offer = await GetOffer(params.id, supabase, user);
     
-    return <PublicPage data={transaction} />
+    return <PublicPage data={transaction} offer={offer} />
 }

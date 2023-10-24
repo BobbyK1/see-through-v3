@@ -1,7 +1,7 @@
 'use client'
 
 import { useSupabase } from "@/app/context/SupabaseProvider";
-import { Box, Button, Center, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Center, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Select, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -14,12 +14,15 @@ export default function TransactionDrawer({ isOpen, onClose }) {
     const [uniqueLoading, setUniqueLoading] = useState(false);
 
     const [formData, setFormData] = useState({
-        mlsId: '',
+        status: 'draft',
+        mls_id: '',
         address: '',
         price: '',
-        listingAgent: '',
-        coListingAgent: '',
-        userId: user?.id
+        listing_agent: '',
+        co_listing_agent: '',
+        user_id: user?.id,
+        listing_approved_by_mls: false,
+        consent_to_share_offer_amount: false
     })
     
 
@@ -30,6 +33,8 @@ export default function TransactionDrawer({ isOpen, onClose }) {
             ...formData,
             [name]: value,
         });
+
+        console.log(formData)
     }
 
     const router = useRouter();
@@ -110,7 +115,20 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                         </Box> 
                         :  
                         <Box>
-                            <Box mt="5" px="5">                    
+                            <Box mt="5" px="5">    
+                                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                    <Text color="whiteAlpha.700">Status</Text>
+                                    <Select name="status" onChange={handleChange} variant="filled" defaultValue="draft" w="80" borderColor="#3e3e3e" bgColor="#2a2929" borderWidth="thin">
+                                        <option value="draft">Draft</option>
+                                        <option value="active">Active</option>
+                                        <option value="under-contract">Under Contract</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="closed">Closed</option>
+                                    </Select>
+                                </Stack>
+
+                                <Divider borderColor="#2e2e2e" h="0.5" my="5" />
+
                                 <Stack direction="row" justify="space-between" alignItems="center">
                                     <Text color="whiteAlpha.700">MLS ID</Text>
                                     <Box>
@@ -151,7 +169,16 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                             <Divider borderColor="#2e2e2e" h="0.5" mt="5" />
 
                             <Box w="fit-content" ml="auto" mt="5" px="5">
-                                <Consent />
+                                <Box w="fit-content" ml="auto">
+                                    <Checkbox name="listing_approved_by_mls" onChange={() => setFormData({
+                                        ...formData,
+                                        "listing_approved_by_mls": !formData.listing_approved_by_mls
+                                    })} mb="2" colorScheme="green" color="whiteAlpha.700" borderColor="#3e3e3e">I certify that this listing is approved by my local Realtor Association.</Checkbox>
+                                    <Checkbox name="consent_to_share_offer_amount" onChange={() => setFormData({
+                                        ...formData,
+                                        "consent_to_share_offer_amount": !formData.consent_to_share_offer_amount
+                                    })} colorScheme="green" color="whiteAlpha.700" borderColor="#3e3e3e">I have permission to disclose the amount of offers on this transaction.</Checkbox>
+                                </Box>
                             </Box>
                         </Box>
                     }
@@ -162,14 +189,5 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
-    )
-}
-
-function Consent() {
-    return (
-        <>
-            <Checkbox colorScheme="green" color="whiteAlpha.700" borderColor="#3e3e3e">I certify that this listing is approved by my local Realtor Association.</Checkbox>
-            <Checkbox colorScheme="green" color="whiteAlpha.700" borderColor="#3e3e3e">I have permission to disclose the amount of offers on this transaction.</Checkbox>
-        </>
     )
 }
