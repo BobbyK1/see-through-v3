@@ -41,29 +41,51 @@ export default function TransactionDrawer({ isOpen, onClose }) {
 
     const submitTransaction = async () => {
         setLoading(true);
-
-        await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/database/createTransaction`, {
-            method: "post",
-            body: JSON.stringify(formData)
-        })
-        .then(data => data.json())
-        .then(data => {
+    
+        try {
+            const response1 = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/database/createTransaction`, {
+                method: "post",
+                body: JSON.stringify(formData)
+            });
+    
+            if (!response1.ok) {
+                throw new Error(`HTTP error! Status: ${response1.status}`);
+            }
+    
+            const data = await response1.json();
+    
+            const response2 = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/search/syncTransactionToAloglia`, {
+                method: "POST",
+                body: JSON.stringify({
+                    id: data.id,
+                    address: formData.address,
+                    listing_agent: formData.listing_agent,
+                    mls_id: formData.mls_id,
+                    status: formData.status
+                })
+            });
+    
+            if (!response2.ok) {
+                throw new Error(`HTTP error! Status: ${response2.status}`);
+            }
+    
             toast({
                 title: "Transaction successfully created!",
                 status: "success",
                 variant: "subtle",
                 position: "bottom-right",
                 duration: 5000
-            })
+            });
+    
             router.refresh();
-            router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard/transactions/view/${data.id}`)
-        })
-        .catch(error => {
-            console.log(error)
-
+            router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard/transactions/view/${data.id}/listing-info`);
+        } catch (error) {
+            console.log(error);
+        } finally {
             setLoading(false);
-        })
-    }
+        }
+    };
+    
 
     const checkMlsId = async (e) => {
         setUniqueLoading(true);
@@ -98,10 +120,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
             <DrawerContent bgColor="#1c1c1c" color="whitesmoke">
                 <DrawerCloseButton />
                 <DrawerHeader>
-                    <Box display="flex" flexDir="row" alignItems="center">
-                        <Text mr="2">Create Transaction</Text>
-                        <Text as="code" bgColor="#2e2e2e" fontSize="md" h="fit-content" px="4" borderRadius="5">Draft</Text>
-                    </Box>
+                    <Text mr="2">Create Transaction</Text>
                 </DrawerHeader>
                 <Divider borderColor="#2e2e2e" h="0.5" />
                 <DrawerBody p="0">
@@ -132,7 +151,7 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                                 <Stack direction="row" justify="space-between" alignItems="center">
                                     <Text color="whiteAlpha.700">MLS ID</Text>
                                     <Box>
-                                        <Input name="mlsId" isInvalid={unique === false}  onBlur={(e) => checkMlsId(e.target.value)} onChange={handleChange} w="80" type="text" borderColor={unique ? "green.500" : "#3e3e3e"} bgColor="#2a2929" />
+                                        <Input name="mls_id" isInvalid={unique === false}  onBlur={(e) => checkMlsId(e.target.value)} onChange={handleChange} w="80" type="text" borderColor={unique ? "green.500" : "#3e3e3e"} bgColor="#2a2929" />
                                         {unique === false && <Text fontSize="sm" mt="1" color="red.500">MLS ID already in use.</Text>}
                                     </Box>
                                 </Stack>
@@ -157,12 +176,12 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                             <Box mt="5" px="5">
                                 <Stack direction="row" justify="space-between" alignItems="center">
                                     <Text color="whiteAlpha.700">Listing Agent</Text>
-                                    <Input name="listingAgent" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" defaultValue="" />
+                                    <Input name="listing_agent" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" defaultValue="" />
                                 </Stack>
 
                                 <Stack direction="row" justify="space-between" alignItems="center" mt="10">
                                     <Text color="whiteAlpha.700">Co. Listing Agent</Text>
-                                    <Input name="coListingAgent" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
+                                    <Input name="co_listing_agent" onChange={handleChange} w="80" type="text" borderColor="#3e3e3e" bgColor="#2a2929" />
                                 </Stack>
                             </Box>
 
@@ -184,8 +203,8 @@ export default function TransactionDrawer({ isOpen, onClose }) {
                     }
                 </DrawerBody>
                 <DrawerFooter>
-                    <Button mr="2" variant="solid" size="sm" bgColor="#2e2e2e" borderColor="#3e3e3e" borderWidth="thin" colorScheme="whiteAlpha" p="3" onClick={onClose}>Close</Button>
-                    <Button isDisabled={loading || formData.address.length === 0 || formData.mlsId.length === 0 || formData.price.length === 0 || formData.listingAgent.length === 0} variant="solid" size="sm" bgColor="green.500" borderColor="green.800" borderWidth="thin" colorScheme="green" p="3" onClick={submitTransaction}>Submit</Button>
+                    <Button color="whiteAlpha.800" mr="2" variant="solid" size="sm" bgColor="#2e2e2e" borderColor="#3e3e3e" borderWidth="thin" colorScheme="whiteAlpha" p="3" onClick={onClose}>Close</Button>
+                    <Button color="whiteAlpha.800" isDisabled={loading || formData.address.length === 0 || formData.mls_id.length === 0 || formData.price.length === 0 || formData.listing_agent.length === 0} variant="solid" size="sm" bgColor="green.500" borderColor="green.800" borderWidth="thin" colorScheme="green" p="3" onClick={submitTransaction}>Submit</Button>
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>

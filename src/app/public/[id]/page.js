@@ -1,6 +1,12 @@
-import PublicPage from "@/app/components/Content/Public/PublicPage";
+import { Box, Button, Container, Divider, Flex, Grid, GridItem, IconButton, Spinner, Stack, Tag, Text } from "@chakra-ui/react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers";
+import { Suspense } from "react";
+import Link from "next/link";
+import { AiOutlineUser } from "react-icons/ai";
+import { AuthButtonSkeleton, MainCardSkeleton } from "@/app/components/Content/Public/skeletons";
+import Card from "@/app/components/UI/Card";
+import SignIn from "@/app/components/Content/Public/SignIn";
 
 export const dynamic = 'force-dynamic';
 
@@ -29,9 +35,115 @@ async function GetOffer(id, supabase, user) {
 export default async function Page({ params }) {
     const supabase = createServerComponentClient({ cookies })
     const { data: { user } } = await supabase.auth.getUser();
+    // const path = usePathname()
 
     const transaction = await GetTransaction(params.id, supabase, user);
-    const offer = await GetOffer(params.id, supabase, user);
+
+    if (user) { var offer = await GetOffer(params.id, supabase, user); }
     
-    return <PublicPage data={transaction} offer={offer} />
+    return (
+        <>
+            <Stack mb="5" direction="row" maxH="14" minH="14" px="5" borderBottomWidth="thin" borderColor="#2e2e2e" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" spacing="5" alignItems="center">
+                    <Text mr="5" color="green.500" fontWeight="bold" fontSize="lg">See Through</Text>
+
+                    <Link href="/">Home</Link>
+                    <Link href="/">Offers</Link>
+                </Stack> 
+                <Suspense fallback={<AuthButtonSkeleton />}>
+                    {user ? 
+                        <>
+                            <Box w="96">
+
+                            </Box>
+                            
+                            <Box>
+                                <IconButton size="sm" icon={<AiOutlineUser />} variant="solid" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800" />
+                            </Box>
+                        </>
+
+                        :   
+                        <>
+                            <Stack direction="row" alignItems="center" spacing="2">
+                                <Link href="/">
+                                    <Button variant="solid" size="xs" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800">Create Account</Button>
+                                </Link>
+                                <Link href="/">
+                                    <Button variant="solid" size="xs" w="full" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">Sign In</Button>
+                                </Link>
+                            </Stack>
+                        </>
+                    }
+                </Suspense>
+            </Stack>
+            <Container maxW="container.xl">
+                <Suspense fallback={<MainCardSkeleton />}>
+                    <Box>
+                        <Stack direction="row" justify="space-between">
+                            <Box>
+                                <Text fontSize="md" color="whiteAlpha.600"><Tag colorScheme="green" textTransform="capitalize">{transaction.status}</Tag> ${transaction.price}</Text>
+                            
+                                <Text fontSize="xl" color="whiteAlpha.800">{transaction.address}</Text>
+                            </Box>
+
+                            {user && offer ? <Button w="fit-content" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">View Offer</Button> : <Button  w="fit-content" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">Submit Offer</Button>}
+                        </Stack>
+                    </Box>
+                    {user ? <TransactionCard data={transaction} /> : <SignIn /> }
+                </Suspense>
+            </Container>
+        </>
+    )
 }
+
+const TransactionCard = ({ data }) => {
+
+    return (
+        <>
+            <Grid mt="10" w="full" templateColumns='repeat(12, 1fr)' gap="3">
+                <GridItem colSpan="6">
+                    <Card p="5" minH="full">
+                        <Text color="whiteAlpha.700">General Info</Text>
+
+                        <Divider my="2" borderColor="#2e2e2e" />                            
+                    </Card>
+                </GridItem>
+                
+                <GridItem colSpan="3">
+                    <Card p="5" minH="full" >
+                        <Text fontSize="md" color="whiteAlpha.700">Offers</Text>
+
+                        <Divider my="2" borderColor="#2e2e2e" />
+
+                        <Flex direction="column" h="32" justifyContent="center" alignItems="center">
+                            <Text textAlign="center" my="3" fontSize="2xl" color="whiteAlpha.800">{data.num_of_offers}</Text>
+
+                        
+                            <Link href={`/dashboard/transactions/view/${data.id}/offers`}>
+                                <Button variant="ghost" size="sm" color="whiteAlpha.800">View All</Button>
+                            </Link>
+                        </Flex>
+                    </Card>
+                </GridItem>
+
+                <GridItem colSpan="3">
+                    <Card minH="full" p="5">
+                        <Text color="whiteAlpha.700">Offers (Last 30 days)</Text>
+
+                        <Divider my="2" borderColor="#2e2e2e" />
+
+                        <Flex direction="column" h="32" justifyContent="center" alignItems="center">
+                            <Text textAlign="center" my="3" fontSize="2xl" color="whiteAlpha.800">{data.num_of_offers}</Text>
+
+                        
+                            <Link href={`/dashboard/transactions/view/${data.id}/offers`}>
+                                <Button variant="ghost" size="sm" color="whiteAlpha.800">View All</Button>
+                            </Link>
+                        </Flex>
+                    </Card>
+                </GridItem>
+            </Grid>
+        </>
+    )
+}
+

@@ -1,4 +1,4 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers';
 
@@ -12,7 +12,8 @@ export const dynamic = 'force-dynamic'
  */
 
 export async function POST(request) {
-    const supabase = createServerComponentClient({ cookies });
+    const cookieStore = cookies();
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
 
     // Check if request is authenticated
     const { data: session } = await supabase.auth.getSession();

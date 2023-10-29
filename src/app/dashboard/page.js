@@ -20,7 +20,7 @@ async function GetActiveTransactionsCount(id, supabase) {
     const { data, count, error } = await supabase
         .from('transactions')
         .select('*', { count: 'exact', head: true })
-        .filter('user_id', "eq", id)
+        .eq('user_id', id)
 
     if (error) throw new Error(error.message);
 
