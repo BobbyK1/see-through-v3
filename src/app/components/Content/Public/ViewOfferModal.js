@@ -1,13 +1,14 @@
 'use client'
 
-import { useSupabase } from "@/app/context/SupabaseProvider";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Spinner } from "@chakra-ui/react";
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Spinner, useDisclosure } from "@chakra-ui/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 
-const ViewOfferModal = ({ onClose, isOpen, offer }) => {
+const ViewOfferModal = ({  offer }) => {
     const [loading, setLoading] = useState(false);
     const [pdfDataUri, setPdfDataUri] = useState('');
+
+    const { onOpen, onClose, isOpen } = useDisclosure();
 
     const supabase = createClientComponentClient();
 
@@ -33,6 +34,8 @@ const ViewOfferModal = ({ onClose, isOpen, offer }) => {
 
     return (
         <>
+            <Button onClick={onOpen} w="fit-content" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">View Offer</Button>
+
             <Modal size="6xl" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent bgColor="#1c1c1c">

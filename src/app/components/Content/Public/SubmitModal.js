@@ -1,10 +1,10 @@
 'use client'
 
-import { Alert, AlertIcon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useDisclosure, useToast } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
-const SubmitOfferModal = ({ onClose, isOpen, id }) => {
+const SubmitOfferModal = () => {
     const [file, setFile] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -12,6 +12,7 @@ const SubmitOfferModal = ({ onClose, isOpen, id }) => {
     const params = useParams();
     const toast = useToast();
     const router = useRouter();
+    const { onOpen, isOpen, onClose } = useDisclosure();
 
     const handleSubmit = async (e) => {
         setLoading(true);
@@ -66,6 +67,7 @@ const SubmitOfferModal = ({ onClose, isOpen, id }) => {
 
     return (
         <>
+            <Button onClick={onOpen} w="fit-content" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">Submit Offer</Button>
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent bgColor="#1c1c1c">

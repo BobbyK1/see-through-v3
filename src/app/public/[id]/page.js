@@ -7,6 +7,8 @@ import { AiOutlineUser } from "react-icons/ai";
 import { AuthButtonSkeleton, MainCardSkeleton } from "@/app/components/Content/Public/skeletons";
 import Card from "@/app/components/UI/Card";
 import SignIn from "@/app/components/Content/Public/SignIn";
+import SubmitOfferModal from "@/app/components/Content/Public/SubmitModal";
+import ViewOfferModal from "@/app/components/Content/Public/ViewOfferModal";
 
 export const dynamic = 'force-dynamic';
 
@@ -23,8 +25,10 @@ async function GetTransaction(id, supabase, user) {
 }
 
 async function GetOffer(id, supabase, user) {
-    const { data, error } = await supabase.from('offers').select('*').eq('user_id', user.id).eq('transaction_id', id)
+    const { data, error } = await supabase.from('offers').select('*').eq('submitting_agent_id', user.id).eq('transaction_id', id)
 
+    if (error) throw new Error(error.message);
+    
     if (data.length > 0) {
         return data[0];
     } else {
@@ -35,7 +39,6 @@ async function GetOffer(id, supabase, user) {
 export default async function Page({ params }) {
     const supabase = createServerComponentClient({ cookies })
     const { data: { user } } = await supabase.auth.getUser();
-    // const path = usePathname()
 
     const transaction = await GetTransaction(params.id, supabase, user);
 
@@ -65,7 +68,7 @@ export default async function Page({ params }) {
                         :   
                         <>
                             <Stack direction="row" alignItems="center" spacing="2">
-                                <Link href="/">
+                                <Link href="/create-account">
                                     <Button variant="solid" size="xs" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800">Create Account</Button>
                                 </Link>
                                 <Link href="/">
@@ -86,7 +89,9 @@ export default async function Page({ params }) {
                                 <Text fontSize="xl" color="whiteAlpha.800">{transaction.address}</Text>
                             </Box>
 
-                            {user && offer ? <Button w="fit-content" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">View Offer</Button> : <Button  w="fit-content" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">Submit Offer</Button>}
+                            <Box display={user ? "block" : "none"}>
+                                {offer ? <ViewOfferModal offer={offer} /> : <SubmitOfferModal />}
+                            </Box>                        
                         </Stack>
                     </Box>
                     {user ? <TransactionCard data={transaction} /> : <SignIn /> }
