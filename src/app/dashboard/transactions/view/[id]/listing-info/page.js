@@ -1,11 +1,11 @@
-import ListingInfo from "@/app/components/Content/Transactions/Tabs/LisingInfo";
+
+import { CoListingAgent, Dollar, DueDate, ListingAgent, Task } from "@/app/components/Content/Transactions/View/Icons";
 import SmallButton from "@/app/components/UI/Button";
 import Card from "@/app/components/UI/Card";
 import { Box, Button, Divider, Flex, Grid, GridItem, Icon, Stack, Tag, Text } from "@chakra-ui/react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDollar, AiOutlineUser, AiOutlineUserSwitch } from "react-icons/ai";
 
 export const dynamic = 'force-dynamic';
 
@@ -26,7 +26,6 @@ async function GetTasks(query, supabase) {
 }
 
 export default async function Page({ params }) {
-    "use server"
     const supabase = createServerComponentClient({ cookies });
     const query = await params;
 
@@ -88,17 +87,17 @@ export default async function Page({ params }) {
 
                         <Stack direction="column" justify="space-between" color="whiteAlpha.800">
                             <Stack my="1" direction="row" justifyContent="space-between">
-                                <Icon as={<AiOutlineDollar />} fontSize="2xl" />
+                                <Dollar />
                                 <Text>${transaction.price}</Text>
                             </Stack>
 
                             <Stack my="3" direction="row" justifyContent="space-between">
-                                <Icon as={<AiOutlineUser />} fontSize="2xl" />
+                                <ListingAgent />
                                 <Text>{transaction.listing_agent}</Text>
                             </Stack>
 
                             <Stack my="3" direction="row" justifyContent="space-between">
-                                <Icon as={AiOutlineUserSwitch} fontSize="2xl" />
+                                <CoListingAgent />
                                 <Text>{transaction.co_listing_agent ? transaction.co_listing_agent : "N/a"}</Text>
                             </Stack>
                        </Stack>
@@ -119,12 +118,14 @@ export default async function Page({ params }) {
                                 .slice() // Create a copy of the tasks array to avoid mutating the original
                                 .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
                                 .map(task => {
+
+
                                     return (
                                         <Fade in={true}>
                                             <Grid key={task.id} templateColumns="repeat(12, 1fr)" bg="#2e2e2e" minH="14" mb="1.5" borderRadius="5" w="full" p="4" shadow="sm" alignItems="center">
                                                 <GridItem colSpan="5">
                                                     <Flex direction="row">
-                                                        <Icon as={<AiOutlineClockCircle />} fontSize="2xl" color="whiteAlpha.800" />
+                                                        <Task color="whiteAlpha.700" />
                                                         <Tooltip label={task.title}>
                                                             <Text ml="5" noOfLines="1" color="whiteAlpha.800">{task.title}</Text>
                                                         </Tooltip>
@@ -132,7 +133,7 @@ export default async function Page({ params }) {
                                                 </GridItem>
                                                 <GridItem colSpan="3">
                                                     <Flex direction="row">
-                                                        <Icon as={<AiOutlineCalendar />} fontSize="xl" color="whiteAlpha.700" />
+                                                        <DueDate color="whiteAlpha.700" />
                                                         <Text ml="5" color="whiteAlpha.700">{task.due_date}</Text>
                                                     </Flex>
                                                 </GridItem>
@@ -144,6 +145,8 @@ export default async function Page({ params }) {
                                     )
                                 })}
                         </Box>
+
+                        
                     </Card>
                 </GridItem>
             </Grid>

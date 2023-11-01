@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, useColorModeValue } from "@chakra-ui/react";
 
 export default function SmallButton({ children, ...props }) {
