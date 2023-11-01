@@ -1,5 +1,3 @@
-'use client'
-
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
 
 const overlayStyle = {

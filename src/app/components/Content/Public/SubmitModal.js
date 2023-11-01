@@ -67,7 +67,8 @@ const SubmitOfferModal = () => {
 
     return (
         <>
-            <Button onClick={onOpen} w="fit-content" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">Submit Offer</Button>
+            <Button onClick={onOpen} w="full" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">Submit Offer</Button>
+            
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent bgColor="#1c1c1c">

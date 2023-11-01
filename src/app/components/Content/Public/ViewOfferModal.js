@@ -34,7 +34,7 @@ const ViewOfferModal = ({  offer }) => {
 
     return (
         <>
-            <Button onClick={onOpen} w="fit-content" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">View Offer</Button>
+            <Button onClick={onOpen} w="full" mt="3" variant="solid" size="sm" bg="green.500" colorScheme="green" borderWidth="thin" color="whiteAlpha.800">View Offer</Button>
 
             <Modal size="6xl" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />

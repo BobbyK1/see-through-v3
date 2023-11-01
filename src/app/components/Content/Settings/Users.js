@@ -3,7 +3,6 @@
 import { Avatar, Box, IconButton, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react"
 import { AiOutlinePlus } from "react-icons/ai"
 
-
 export default function Users() {
 
     return (

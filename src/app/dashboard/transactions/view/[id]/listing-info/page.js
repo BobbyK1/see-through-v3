@@ -1,8 +1,9 @@
 
-import { CoListingAgent, Dollar, DueDate, ListingAgent, Task } from "@/app/components/Content/Transactions/View/Icons";
-import SmallButton from "@/app/components/UI/Button";
+import AddTaskDrawer from "@/app/components/Content/Transactions/View/AddTaskDrawer";
+import CompleteButton from "@/app/components/Content/Transactions/View/CompleteButton";
+import { CoListingAgent, Dollar, DueDate, ListingAgent, Task } from "@/app/components/UI/Icons";
 import Card from "@/app/components/UI/Card";
-import { Box, Button, Divider, Flex, Grid, GridItem, Icon, Stack, Tag, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Grid, GridItem, Stack, Tag, Text, Tooltip } from "@chakra-ui/react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -12,7 +13,7 @@ export const dynamic = 'force-dynamic';
 async function GetTransaction(query, supabase) {
     let { data: transactions, error } = await supabase.from('transactions').select('*').eq('id', query); 
 
-    if (error) throw new Error(`Error Code For Support: ${error.code}`);
+    if (error) throw new Error(error.message);
 
     return transactions[0];
 }
@@ -108,7 +109,7 @@ export default async function Page({ params }) {
                         <Stack direction="row" justify="space-between">
                             <Text color="whiteAlpha.700">Tasks</Text>
                             
-                            <SmallButton bgColor="green.500" borderColor="green.600" color="whiteAlpha.800" colorScheme="green">Add Task</SmallButton>
+                            <AddTaskDrawer />
                         </Stack>
 
                         <Divider my="5" borderColor="#2e2e2e" />
@@ -121,7 +122,7 @@ export default async function Page({ params }) {
 
 
                                     return (
-                                        <Fade in={true}>
+                                        
                                             <Grid key={task.id} templateColumns="repeat(12, 1fr)" bg="#2e2e2e" minH="14" mb="1.5" borderRadius="5" w="full" p="4" shadow="sm" alignItems="center">
                                                 <GridItem colSpan="5">
                                                     <Flex direction="row">
@@ -138,10 +139,9 @@ export default async function Page({ params }) {
                                                     </Flex>
                                                 </GridItem>
                                                 <GridItem colSpan="4" display="flex" justifyContent="flex-end" alignItems="center">
-                                                    <Button isLoading={taskLoading[task.id]} variant="ghost" _hover={{ color: "whiteAlpha.800" }} color="whiteAlpha.700" size="sm" onClick={() => handleMarkComplete(task.id)}>Mark As Complete</Button>
+                                                    <CompleteButton taskId={task.id} />
                                                 </GridItem>
                                             </Grid>
-                                        </Fade>
                                     )
                                 })}
                         </Box>

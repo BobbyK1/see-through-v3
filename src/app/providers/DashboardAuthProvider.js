@@ -13,8 +13,6 @@ export const DashboardAuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const supabase = createClientComponentClient();
     const router = useRouter();
-    
-
 
     const checkRole = async () => {
         setLoading(true);
