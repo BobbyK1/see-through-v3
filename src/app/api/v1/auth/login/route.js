@@ -17,19 +17,24 @@ export async function POST(request) {
 	})
 
 	if (error) {
-		NextResponse.error(error);
+		NextResponse.error(error.message);
 		throw new Error(error);
 	}
 
-	
-	let { data: profiles, errorTwo } = await supabase.from('profiles').select('role').eq('id', user.id);
+	if (user) {
+		let { data: profiles, errorTwo } = await supabase.from('profiles').select('role').eq('id', user.id);
 
-	if (errorTwo) {
-		NextResponse.error(errorTwo);
-		throw new Error(errorTwo);
+		if (errorTwo) {
+			NextResponse.error(errorTwo);
+			throw new Error(errorTwo);
+		}
+
+		return NextResponse.json({
+			role: profiles[0].role
+		})
+	} else {
+		return NextResponse.json({ success: false })
 	}
 
-	return NextResponse.json({
-		role: profiles[0].role
-	})
+	
 }

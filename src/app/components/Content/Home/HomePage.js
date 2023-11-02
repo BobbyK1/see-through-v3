@@ -1,19 +1,21 @@
 'use client'
 
 import { Link } from "@chakra-ui/next-js";
-import { Box, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react"
+import { Alert, AlertIcon, Box, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react"
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react"
 
 export default function HomePage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const router = useRouter();
     const params = useSearchParams();
 
     const signIn = async () => {
 		setLoading(true);
+        setError('');
 
 		await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/auth/login`, {
 			method: "POST",
@@ -25,6 +27,11 @@ export default function HomePage() {
             .then(data => data.json())
             .then(data => {
                 router.refresh();
+
+                if (data.success === false) {
+                    setLoading(false);
+                    return setError('Incorrect email or password.')
+                }
 
                 switch(data.role) {
                     case 'agent':
@@ -63,6 +70,7 @@ export default function HomePage() {
                 </FormControl>
 
                 <Button isDisabled={password.length === 0} isLoading={loading} onClick={signIn} variant="solid" size="sm" w="full" mt="5" bg="green.500" colorScheme="green" borderWidth="thin" borderColor="green.400" color="whiteAlpha.800">Sign In</Button>
+                {error && <Alert mt="3" borderRadius="5" status="error"><AlertIcon /> {error}</Alert>}
 
                 <Box h="0.5" borderColor="whiteAlpha.500" borderWidth="thin" w="full" my="7">
                     <Text mt="-3.5" p="0.5" px="2" mx="auto" bgColor="#1e1e1e" w="fit-content" color="whiteAlpha.700">Or</Text>
