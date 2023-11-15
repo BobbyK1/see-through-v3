@@ -46,6 +46,12 @@ export default function HomePage() {
                         } else {
                             return router.push('/public')
                         }
+                    case 'client': 
+                        if (params.has('continue')) {
+                            return router.push(params.get('continue'));
+                        } else {
+                            return router.push('/client');
+                        }
                     default:
                         return;
                 }
@@ -61,12 +67,12 @@ export default function HomePage() {
                 <Text color="whiteAlpha.700">Sign In</Text>
                 <FormControl mt="5">
                     <FormLabel>Email</FormLabel>
-                    <Input onChange={(e) => setEmail(e.target.value)} />
+                    <Input borderColor="#3e3e3e" bg="#2e2e2e" color="whiteAlpha.800" onChange={(e) => setEmail(e.target.value)} />
                 </FormControl>
 
                 <FormControl mt="5">
                     <FormLabel>Password</FormLabel>
-                    <Input onChange={(e) => setPassword(e.target.value)} type="password" />
+                    <Input borderColor="#3e3e3e" bg="#2e2e2e" color="whiteAlpha.800" onChange={(e) => setPassword(e.target.value)} type="password" />
                 </FormControl>
 
                 <Button isDisabled={password.length === 0} isLoading={loading} onClick={signIn} variant="solid" size="sm" w="full" mt="5" bg="green.500" colorScheme="green" borderWidth="thin" borderColor="green.400" color="whiteAlpha.800">Sign In</Button>
@@ -77,7 +83,7 @@ export default function HomePage() {
                 </Box>
 
                 <Link href="/create-account">
-                    <Button variant="solid" size="sm" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800">Create Account</Button>
+                    <Button variant="solid" size="sm" w="full" bg="whiteAlpha.100" borderColor="#3e3e3e" colorScheme="white" borderWidth="thin" color="whiteAlpha.800">Create Account</Button>
                 </Link>
             </Box>
         </>

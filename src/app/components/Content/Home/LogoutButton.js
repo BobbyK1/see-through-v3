@@ -7,6 +7,6 @@ export default function LogoutButton() {
     const { signOut, authLoading } = useSupabase();
 
     return (
-        <Button isLoading={authLoading} onClick={signOut} variant="solid" size="sm" w="full" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin">Log Out</Button>
+        <Button isLoading={authLoading} onClick={signOut} variant="solid" size="sm" w="full" bg="whiteAlpha.100" colorScheme="white" color="whiteAlpha.800" borderColor="blackAlpha.200" borderWidth="thin">Log Out</Button>
     )
 }

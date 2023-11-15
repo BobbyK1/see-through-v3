@@ -1,12 +1,10 @@
 'use client'
 
-import { useSideContent } from "@/app/context/useSideContent";
-import { Box, IconButton, Tooltip, useColorModeValue } from "@chakra-ui/react";
+import { Box, IconButton, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
 import { AiOutlineFolderOpen, AiOutlineHome, AiOutlineQuestionCircle, AiOutlineSearch, AiOutlineSend, AiOutlineSetting } from 'react-icons/ai';
 
 export default function Sidebar() {
-    const { clearSideContent } = useSideContent();
 
     const links = [
         {
@@ -49,7 +47,7 @@ export default function Sidebar() {
 
     return (
         <Box>
-            <Box h="full" display="flex" w="14" flexDirection="column" justifyContent="space-between" overflow="hidden" p="2" borderRightWidth="thin" borderColor={useColorModeValue("#e6e8eb", "#2e2e2e")}>
+            <Box h="full" display="flex" w="14" flexDirection="column" justifyContent="space-between" overflow="hidden" p="2" borderRightWidth="thin" borderColor="#2e2e2e">
                 <ul>
                     {links.map(link => {
                         if (link.placement === "top") {
@@ -57,7 +55,7 @@ export default function Sidebar() {
                                 <>
                                     <Tooltip key={link.link} placement="right-end" label={link.title}>
                                         <Link href={link.link}>
-                                            <IconButton onClick={link.onClick} my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
+                                            <IconButton onClick={link.onClick} my="2" fontSize="xl" variant="ghost" color="whiteAlpha.700" icon={link.icon} />
                                         </Link>
                                     </Tooltip>
                                 </>
@@ -102,7 +100,7 @@ export default function Sidebar() {
                                 <>
                                     <Tooltip key={link.link} placement="right-end" label={link.title}>
                                         <Link href={link.link}>
-                                            <IconButton my="2" fontSize="xl" variant="ghost" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")} icon={link.icon} />
+                                            <IconButton my="2" fontSize="xl" variant="ghost" color="whiteAlpha.700" icon={link.icon} />
                                         </Link>
                                     </Tooltip>
                                 </>

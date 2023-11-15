@@ -39,13 +39,24 @@ async function GetOffer(id, supabase, user) {
     }
 }
 
+async function GetRole(supabase, user) {
+    const { data, error } = await supabase.from('profiles').select('role').eq('id', user);
+
+    if (error) throw new Error(error.message);
+
+    return data[0];
+}
+
 export default async function Page({ params }) {
     const supabase = createServerComponentClient({ cookies })
     const { data: { user } } = await supabase.auth.getUser();
 
     const transaction = await GetTransaction(params.id, supabase, user);
 
-    if (user) { var offer = await GetOffer(params.id, supabase, user); }
+    if (user) { 
+        var offer = await GetOffer(params.id, supabase, user); 
+        var role = await GetRole(supabase, user.id);
+    }
     
     return (
         <>
@@ -66,7 +77,7 @@ export default async function Page({ params }) {
                                     </Box>                        
                                 </Stack>
                             </Box>
-                            {user ? <TransactionCard data={transaction} /> : <SignIn /> }
+                            {user && (role.role === 'agent' || role.role === 'guest_agent') ? <TransactionCard data={transaction} /> : <SignIn /> }
                         </>
                     :
                         <>

@@ -10,7 +10,7 @@ import LogoutButton from "./components/Content/Home/LogoutButton"
 export const dynamic = 'force-dynamic';
 
 async function GetProfile(supabase, id) {
-	const { data } = await supabase.from('profiles').select('*').eq('id', id);
+	const { data } = await supabase.from('profiles').select('role,first_name').eq('id', id);
 
 	return data[0];
 }
@@ -41,8 +41,8 @@ export default async function Page() {
 							<Box w="full">
 								<Text color="whiteAlpha.700">Welcome back, {profile.first_name}!</Text>
 
-								<Link href={profile.role === "agent" ? '/dashboard' : '/public'}>
-									<Button variant="solid" size="sm" w="full" mt="5" bg="green.500" colorScheme="green" borderWidth="thin" borderColor="green.400">Continue To Dashboard</Button>
+								<Link href={profile.role === "agent" ? '/dashboard' : profile.role === "guest_agent" ? "/public" : "/client"}>
+									<Button variant="solid" size="sm" w="full" mt="5" bg="green.500" colorScheme="green" borderWidth="thin" borderColor="green.400" color="whiteAlpha.800">Continue To Dashboard</Button>
 								</Link>
 
 								<Box h="0.5" borderColor="whiteAlpha.500" borderWidth="thin" w="full" my="7">

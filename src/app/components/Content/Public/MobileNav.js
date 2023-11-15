@@ -28,13 +28,7 @@ const MobileNav = ({ user }) => {
                     <DrawerHeader />
 
                     <DrawerBody>
-                        <Stack mt="2" mb="5" direction="row" justify="space-between" alignItems="center">
-                            <Search size="md" />
-
-                            <IconButton size="md" w="fit-content" icon={<AiOutlineUser />} variant="solid" bg="whiteAlpha.100" colorScheme="gray" borderWidth="thin" color="whiteAlpha.800" />
-                        </Stack>
-
-                        <Link onClick={onClose} href="/public">
+                        <Link onClick={onClose} href="/client">
                             <Box p="3" w="full">
                                 <Text color="whiteAlpha.800">Home</Text>
                             </Box>
@@ -42,9 +36,17 @@ const MobileNav = ({ user }) => {
 
                         <Divider my="2" borderColor="#3e3e3e" />
 
-                        <Link onClick={onClose} href="/public/offers">
+                        <Link onClick={onClose} href="/client/transactions">
                             <Box p="3" w="full">
-                                <Text color="whiteAlpha.800">Offers</Text>
+                                <Text color="whiteAlpha.800">Transactions</Text>
+                            </Box>
+                        </Link>
+
+                        <Divider my="2" borderColor="#3e3e3e" />
+
+                        <Link onClick={onClose} href="/client/profile">
+                            <Box p="3" w="full">
+                                <Text color="whiteAlpha.800">Profile</Text>
                             </Box>
                         </Link>
                     </DrawerBody>

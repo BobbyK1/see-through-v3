@@ -3,7 +3,7 @@
 import TransactionDrawer from "@/app/components/Content/Transactions/TransactionsDrawer";
 import { useSideContent } from "@/app/context/useSideContent";
 import { Link } from "@chakra-ui/next-js";
-import { Box, Button, ButtonGroup, IconButton, Input, Stack, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, IconButton, Input, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import Loading from "./loading";
@@ -39,7 +39,7 @@ const SidebarContent = ({ onOpen }) => {
 
         return (
             <Link href={href}>
-                <Button size="sm" bg={active ? useColorModeValue("blackAlpha.200", "whiteAlpha.50") : "transparent"} color={active ? useColorModeValue("blackAlpha.700", "whiteAlpha.800") : useColorModeValue("blackAlpha.500", "whiteAlpha.500")}  px="2" variant="unstyled" w="full" _hover={{ textDecor: "underline", color: useColorModeValue("blackAlpha.700", "whiteAlpha.700") }} textAlign="left" {...props}>
+                <Button size="sm" bg={active ? "whiteAlpha.50" : "transparent"} color={active ? "whiteAlpha.800" : "whiteAlpha.500"}  px="2" variant="unstyled" w="full" _hover={{ textDecor: "underline", color: "whiteAlpha.700" }} textAlign="left" {...props}>
                     {children}
                 </Button>
             </Link>
@@ -50,8 +50,8 @@ const SidebarContent = ({ onOpen }) => {
         <>
             <Box>
                 <Stack direction="row" spacing="2">
-                    <IconButton title="Create Transaction" icon={<AiOutlineFileAdd />} onClick={onOpen} />
-                    <Input placeholder="Search..." />
+                    <IconButton title="Create Transaction" colorScheme="gray" bg="#2e2e2e" color="whiteAlpha.800" _hover={{ bg: "#3e3e3e" }} icon={<AiOutlineFileAdd />} onClick={onOpen} />
+                    <Input borderColor="#3e3e3e" bgColor="#2a2929" _placeholder={{ color: "whiteAlpha.400" }} color="whiteAlpha.800" placeholder="Search..." />
                 </Stack>
                 <ButtonGroup isAttached w="full" variant="solid">
                     

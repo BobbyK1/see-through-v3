@@ -16,8 +16,7 @@ const ViewOfferModal = ({  offer }) => {
         const downloadOffer = async () => {
             setLoading(true);
 
-            const encodedUrl = encodeURIComponent(offer.offer_url);
-            const { data, error } = await supabase.storage.from('offers').download(encodedUrl);
+            const { data, error } = await supabase.storage.from('offers').download(offer.offer_url);
 
             if (error) throw new Error(error.message);
 
@@ -46,14 +45,14 @@ const ViewOfferModal = ({  offer }) => {
                     <ModalBody mb="10">
                         {loading ? <Spinner color="green.500" /> : 
                             <div style={{ width: '100%', height: '70vh', overflow: 'auto' }}>
-                                <iframe
-                                src={`${pdfDataUri}`}
-                                type="application/pdf"
-                                width="100%"
-                                height="100%"
-                                style={{ border: 'none' }}
-                                />
-                            </div>
+                            <iframe
+                              src={pdfDataUri}
+                              type="application/pdf"
+                              width="100%"
+                              height="100%"
+                              style={{ border: 'none' }}
+                            />
+                          </div>
                         }
                     </ModalBody>
 

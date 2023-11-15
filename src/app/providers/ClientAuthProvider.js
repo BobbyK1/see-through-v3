@@ -1,15 +1,15 @@
 'use client'
 
-import { Center, Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useContext, createContext, useState, useEffect } from "react";
 
-const DashboardContext = createContext();
+const ClientContext = createContext();
  
-export const useDashAuth = () => useContext(DashboardContext);
+export const useClientAuth = () => useContext(ClientContext);
 
-export const DashboardAuthProvider = ({ children }) => {
+export const ClientAuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const supabase = createClientComponentClient();
     const router = useRouter();
@@ -29,7 +29,7 @@ export const DashboardAuthProvider = ({ children }) => {
         if (error) throw new Error(error.message);
         
         // Redirect if user is not agent role
-        if (data[0].role !== "agent") {
+        if (data[0].role !== "client") {
             return router.push(`/`);
         }
 
@@ -42,8 +42,8 @@ export const DashboardAuthProvider = ({ children }) => {
     
 
     return (
-        <DashboardContext.Provider value={null}>
-            {loading ? <Center h="80vh"><Spinner color="green.500" /></Center> : children}
-        </DashboardContext.Provider>
+        <ClientContext.Provider value={null}>
+            {loading ? <Flex w="100" h="100vh" bg="#1c1c1c" alignItems="center" justifyContent="center"><Spinner color="green.500" /></Flex> : children}
+        </ClientContext.Provider>
     )
 }

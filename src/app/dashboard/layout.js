@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Sidebar from "../components/Nav/SideNav";
 import ViewWrapper from "../components/Layout/ViewWrapper";
 import Header from "../components/Nav/Header";
@@ -16,24 +16,24 @@ export default function DashboardLayout({ children }) {
     const { sideContent, title } = useSideContent();
 
     return (
-        <DashboardAuthProvider>
-            <Box display="flex" minH="full" flexDirection="column" bgColor={useColorModeValue("#f8f9fa", "#1c1c1c")}>
-                <Box style={{ height: "calc(100vh - 0px)", maxHeight: "calc(100vh - 0px)" }}>
-                    <Box display="flex" h="full">
-                        <Sidebar />
-                        {sideContent && <ColumnWrapper content={sideContent} title={title} />}
-                        <ViewWrapper>
-                            <Header />
-                            <MainWrapper>
+        <Box display="flex" minH="full" flexDirection="column" bgColor="#1c1c1c">
+            <Box style={{ height: "calc(100vh - 0px)", maxHeight: "calc(100vh - 0px)" }}>
+                <Box display="flex" h="full">
+                    <Sidebar />
+                    {sideContent && <ColumnWrapper content={sideContent} title={title} />}
+                    <ViewWrapper>
+                        <Header />
+                        <MainWrapper>
+                            <DashboardAuthProvider>
                                 <Suspense fallback={<Loading />}>
                                     {children}
                                 </Suspense>
-                            </MainWrapper>
-                        </ViewWrapper>
-                    </Box>
+                            </DashboardAuthProvider>
+                        </MainWrapper>
+                    </ViewWrapper>
                 </Box>
             </Box>
-        </DashboardAuthProvider>
+        </Box>   
     )
 
 }

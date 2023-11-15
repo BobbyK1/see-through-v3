@@ -11,10 +11,10 @@ export default function Error({ error, reset }) {
  
   return (
     <Center flexDirection="column" w="full" pt="20vh">
-        <Heading as="h1" fontSize="7xl" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>:(</Heading>
-        <Heading mt="5" as="h2" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>Something went wrong!</Heading>
-        <Text mt="5" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>Error code: {error.digest}</Text>
-        <Text fontSize="sm" mt="2" color={useColorModeValue("blackAlpha.700", "whiteAlpha.700")}>Application trace: {window.location.pathname}</Text>
+        <Heading as="h1" fontSize="7xl" color="whiteAlpha.700">:(</Heading>
+        <Heading mt="5" as="h2" color="whiteAlpha.700">Something went wrong!</Heading>
+        <Text mt="5" color="whiteAlpha.700">Error code: {error.digest}</Text>
+        <Text fontSize="sm" mt="2" color="whiteAlpha.700">Application trace: {window.location.pathname}</Text>
         <Text fontSize="xs" mt="2" color="blue.500">Still encountering this error? Click here.</Text>
         <Button
             mt="5"
